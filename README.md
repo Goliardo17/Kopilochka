@@ -12,10 +12,11 @@
 
 ### Первичные
   - [Авторизация]()
-  - [Главная](./src/docs/client/pages/main.md)
-  - [Категории](./src/docs/client/pages/category.md)
+  - [Главная](./docs/ru/client/pages/main.md)
+  - [Категории](./docs/ru/client/pages/category.md)
   - [История]()
+
 ### Вторичные
   - [Карточка счета]()
   - [Доступные средства]()
-  - [Между своими счетами/обмен валют](./src/docs/client/pages/transaction.md)
+  - [Между своими счетами/обмен валют](./docs/ru/client/pages/transfer.md)
