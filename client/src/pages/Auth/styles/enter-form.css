@@ -1,0 +1,26 @@
+.enter-form {
+  width: 100%;
+  max-width: 600px;
+
+  margin: 100px;
+  padding: 50px;
+  
+  font-size: 24px;
+  font-weight: 800;
+
+  border: 1px solid black;
+  border-radius: 25px;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+
+  .auth-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 18%;
+  }
+}

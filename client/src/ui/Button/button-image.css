@@ -1,0 +1,31 @@
+.button-image {  
+  background-color: unset;
+  border: none;
+
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-size: 15px;
+  
+  &.border {
+    width: 40px;
+    height: 40px;
+    
+    color: unset;
+    border: 1px solid black;
+    border-radius: 4px;
+  }
+
+  &.center {
+    background-position: center;
+  }
+
+  &.right {
+    padding-right: 25px;
+    background-position: right;
+  }
+
+  &.left {
+    padding-left: 25px;
+    background-position: left;
+  }
+}

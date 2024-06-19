@@ -1,0 +1,10 @@
+.list-currency-horizon {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+
+  overflow: auto;
+}

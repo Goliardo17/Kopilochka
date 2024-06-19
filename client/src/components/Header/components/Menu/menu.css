@@ -1,0 +1,18 @@
+.header-menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+  
+    a {
+      padding: 8px 15px;
+      border-radius: 16px;
+      color: rgb(34, 37, 43);
+      text-decoration: none;
+    }
+  
+    .active {
+      background-color: rgb(255, 255, 255);
+    }
+  }
