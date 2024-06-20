@@ -5,9 +5,9 @@ import "./menu.css";
 export const Menu = () => {
   return (
     <div className="header-menu">
-      <NavLink to="/">Главная</NavLink>
+      <NavLink to="/main">Главная</NavLink>
       <NavLink to="/categories">Категории</NavLink>
-      <NavLink to="history">История</NavLink>
+      <NavLink to="/history">История</NavLink>
     </div>
   );
 };

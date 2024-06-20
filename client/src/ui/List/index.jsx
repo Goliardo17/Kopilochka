@@ -6,8 +6,9 @@ import { Currency } from "../Currency";
 import "./list-account-vertical.css";
 import "./list-account-horizon.css";
 import "./list-currency-horizon.css";
+import { Link } from "react-router-dom";
 
-export const List = ({ style, select, label, array, add, action }) => {
+export const List = ({ style, select, label, array, add, action, actionForAdd }) => {
   const list = (item) => {
     switch (style) {
       case "list-account-vertical":
@@ -47,14 +48,24 @@ export const List = ({ style, select, label, array, add, action }) => {
   const buttonForAdd = () => {
     switch (style) {
       case "list-account-horizon":
-        return <Button style="button-image border center" image={addButton} />;
+        return (
+          <Link to="/main/create-new-account">
+            <Button 
+              style="button-image border center" 
+              image={addButton}
+            />
+          </Link>
+        )
       default:
         return (
-          <Button
-            style="button-image left"
-            label="Создать новый счет"
-            image={addButton}
-          />
+          <Link to="/main/create-new-account">
+            <Button
+              style="button-image left"
+              label="Создать новый счет"
+              image={addButton}
+              action={actionForAdd}
+            />
+          </Link>
         );
     }
   };

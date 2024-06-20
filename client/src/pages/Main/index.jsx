@@ -8,16 +8,27 @@ import { Slice } from "./components/Slice";
 import { Currency } from "../../ui/Currency";
 import { Label } from "../../ui/Label";
 import { Modal } from "../../ui/Modal";
+import { Outlet, Navigate } from "react-router-dom"
+
+const userAccounts = [
+  {
+    // id: 1,
+    name: "Первый счет пользователя",
+    currency: "USD",
+    amount: 100.00
+  },
+  {
+    // id: 2,
+    name: "Первый счет пользователя",
+    currency: "RUB",
+    amount: 50.00
+  }
+]
 
 export const Main = () => {
-  const [account, setAccount] = useState({});
-  const [accounts, setAccounts] = useState([]);
+  const [account, setAccount] = useState(userAccounts[0]);
+  const [accounts, setAccounts] = useState(userAccounts);
   const [currencies, setCurrencies] = useState([]);
-  const [visibleCreateAccount, setVisibleCreateAccount] = useState(false);
-
-  const changeVisibleCreateAccount = () => {
-    setVisibleCreateAccount(!visibleCreateAccount);
-  };
 
   // изменить состояние данных профиля
   const changeProfileInfo = (data) => {
@@ -37,14 +48,15 @@ export const Main = () => {
 
   return (
     <>
-      {visibleCreateAccount ? (
-        <Modal type='modal-new-account' back={changeVisibleCreateAccount} />
-      ) : null}
       <div className="container main-account">
-        {account.length ? (
+        {accounts.length ? (
           <>
             <Account style="account-medium" account={account} />
-            <List style="list-account-horizon" add={true} array={accounts} />
+            <List 
+              style="list-account-horizon" 
+              add={true} 
+              array={accounts} 
+            />
 
             <div className="option-container">
               <Button style="button-option" label="Пополнение средств" />
@@ -64,7 +76,6 @@ export const Main = () => {
           <Button
             style="button-option"
             label="Создайте счет что бы начать пользоваться приложением"
-            action={changeVisibleCreateAccount}
           />
         )}
       </div>
@@ -73,6 +84,8 @@ export const Main = () => {
         <Slice label="Ваши счета" />
         <List style="list-account-vertical" add={true} array={accounts} />
       </div>
+
+      <Outlet/>
     </>
   );
 };

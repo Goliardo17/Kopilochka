@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import "./modal-new-category.css"
 
 export const NewCategoryForm = ({ back }) => {
   const [nameCategory, setNameCategory] = useState('')
@@ -25,7 +26,7 @@ export const NewCategoryForm = ({ back }) => {
   // еще должен быть выбор картинки для категории !!!
   
   return (
-    <div>
+    <div className="modal-new-category">
       <div>
         <Button 
           style="button-service" 

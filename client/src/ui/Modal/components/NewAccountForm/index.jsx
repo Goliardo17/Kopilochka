@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Button } from "../../../Button"
 import { Input } from "../../../Input"
 import { Select } from "../../../Select"
+import { Link } from "react-router-dom"
 // import { createNewAccount } from "../../../../../api/createNewAccount"
 
 const currencies = [
@@ -43,17 +44,18 @@ export const NewAccountForm = ({ back }) => {
   }
   
   return (
-    <div>
-      <div>
-        <Button 
-          style="button-service" 
-          label='На Главную'
-          action={back}
-        />
+    <div className="container modal-new-account">
+      <div className="modal-header">
+        <Link to="/main">
+          <Button 
+            style="button-service" 
+            label='На Главную'
+          />
+        </Link>
         <h4>Введите данные нового счета</h4>
       </div>
 
-      <div>
+      <div className="modal-content">
         <Input 
           style=''
           value={nameAccount}

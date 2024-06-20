@@ -27,7 +27,6 @@ export const Account = ({ style, account, action }) => {
       {style == "account-view" || style == "account-small" ? (
         <div className="image-wrapper">
           <img src={accountImage} />
-          <span className="account-id">{account.id}</span>
           <span className="account-currency">{account.currency}</span>
         </div>
       ) : null}

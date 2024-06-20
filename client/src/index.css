@@ -1,6 +1,17 @@
 body, #root, .app {
   margin: 0;
+  color: #22252B;
+  background-color: #F4F5F6;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 15px;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #FFFFFF;
+  border-radius: 24px;
 }

@@ -1,32 +1,19 @@
-import React from "react"
-import { NewAccountForm } from "./components/NewAccountForm"
-import { NewCategoryForm } from "./components/NewCategoryForm"
+import React from "react";
+import { NewAccountForm } from "./components/NewAccountForm";
+import { NewCategoryForm } from "./components/NewCategoryForm";
+import "./modal.css";
 
-export const Modal = ({ type, back }) => {  
+export const Modal = ({ type, back }) => {
   const selectModal = () => {
     switch (type) {
       case "modal-new-account":
-        return (
-          <NewAccountForm 
-            back={back} 
-          />
-        )
+        return <NewAccountForm />;
       case "modal-new-category":
-        return (
-          <NewCategoryForm 
-            back={back} 
-          />
-        )
+        return <NewCategoryForm />;
     }
-  }
+  };
 
-  const element = selectModal()
-  
-  return (
-    <>
-      {/* {
-        element
-      } */}
-    </>
-  )
-}
+  const element = selectModal();
+
+  return <div className="modal">{element}</div>;
+};
