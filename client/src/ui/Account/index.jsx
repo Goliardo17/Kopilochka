@@ -11,7 +11,15 @@ import "./styles/account-view.css";
 
 export const Account = ({ style, account, action }) => {
   return (
-    <div className={style} onClick={() => style === "account-small" || style === "account-view" ? action(account) : null}>
+    <div
+      className={style}
+      onClick={() =>
+        action ? action(account) : null
+        // style === "account-small" || style === "account-view"
+        //   ? action(account)
+        //   : null
+      }
+    >
       <div className="account-wrapper">
         <h4>{account.name}</h4>
 

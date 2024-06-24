@@ -3,6 +3,8 @@ import { Header } from "./components/Header";
 import { Auth } from "./pages/Auth";
 import { Main } from "./pages/Main";
 import { Transfer } from "./pages/Transfer";
+import { History } from "./pages/History"
+import { Categories } from "./pages/Categories"
 import { Modal } from "./ui/Modal";
 
 export default function App() {
@@ -12,11 +14,11 @@ export default function App() {
       element: <Auth />
     },
     {
-      path: "/main",
+      path: "/",
       element: <Header />,
       children: [
         {
-          path: "/main",
+          path: "main",
           element: <Main />,
           children: [
             {
@@ -25,23 +27,30 @@ export default function App() {
             }
           ]
         },
-        // {
-        //   path: "/categories",
-        //   children: [
-        //     {
-        //       path: "/categories/create-new-category",
-        //       element: <Modal type='modal-new-category'/>
-        //     }
-        //   ]
-        // },
-        // {
-        //   path: "/history"
-        // }
-      ],
+        {
+          path: "categories",
+          element: <Categories />,
+          children: [
+            {
+              path: "/categories/create-new-category",
+              element: <Modal type='modal-new-category'/>
+            }
+          ]
+        },
+        {
+          path: "history",
+          element: <History />
+        }
+      ]
     },
-    // {
-    //   path: "/transfer"
-    // }
+    {
+      path: "/transfer",
+      element: <Transfer />  
+    },
+    {
+      path: "/transfer/:typeTransfer/:accountId",
+      element: <Transfer />  
+    }
   ]);
 
   return (

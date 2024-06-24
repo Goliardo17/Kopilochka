@@ -1,0 +1,5 @@
+.categories-searching {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}

@@ -39,10 +39,10 @@ export const Auth = () => {
   // };
 
   return (
-    <>
+    <div className="container enter-form">
       {!createNewProfile ? (
-        <div className="enter-form auth-profile">
-          <p>Вход</p>
+        <div className="auth-profile">
+          <h1>Вход</h1>
           <Input
             placeholder="Email"
             type="email"
@@ -65,14 +65,15 @@ export const Auth = () => {
           />
         </div>
       ) : (
-        <div className="enter-form create-profile">
-          <div className="auth-header">
+        <div className="create-profile">
+          <div className="create-profile-header">
             <Button 
               style="button-service mini"
               label="Назад"
               action={changeForm}
             />
-            <p>Регистрация</p>
+            <h1>Регистрация</h1>
+            <div className="dummy">dummy</div>
           </div>
           <Input
             placeholder="Name"
@@ -99,6 +100,6 @@ export const Auth = () => {
           />
         </div>
       )}
-    </>
+    </div>
   );
 };

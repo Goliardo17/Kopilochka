@@ -3,18 +3,18 @@ import { Account } from "../Account";
 import { Button } from "../Button";
 import addButton from "./image/add.svg";
 import { Currency } from "../Currency";
-import "./list-account-vertical.css";
-import "./list-account-horizon.css";
-import "./list-currency-horizon.css";
-import { Link } from "react-router-dom";
+import "./styles/list-account-vertical.css";
+import "./styles/list-account-horizon.css";
+import "./styles/list-currency-horizon.css";
+import { Label } from "../Label";
 
-export const List = ({ style, select, label, array, add, action, actionForAdd }) => {
-  const list = (item) => {
+export const List = ({ style, select, label, array, add, action, actionForAdd, account }) => {
+  const list = (item, index) => {
     switch (style) {
       case "list-account-vertical":
         return (
           <Account
-            key={`account-vertical-${item.id}`}
+            key={`account-vertical-${index}`}
             style="account-view"
             account={item}
             action={action}
@@ -24,7 +24,7 @@ export const List = ({ style, select, label, array, add, action, actionForAdd })
       case "list-account-horizon":
         return (
           <Account
-            key={`account-horizon-${item.id}`}
+            key={`account-horizon-${index}`}
             style="account-small"
             account={item}
             action={action}
@@ -34,14 +34,29 @@ export const List = ({ style, select, label, array, add, action, actionForAdd })
       case "list-currency-horizon":
         return (
           <Currency
-            key={`currency-horizon-${item.id}`}
+            key={`currency-horizon-${index}`}
             style="currency-medium"
+            account={account}
             currency={item}
             onClick={() => console.log(item)}
           />
         );
+      case "list-history":
+      return (
+        <Label
+          key={`label-view-${index}`}
+          style="label-view"
+          text={item.transfer.type}
+        />
+      );
       default:
-        return <p>{style} Такого стиля нет</p>;
+        return (
+          <Label 
+            key={`label-view-${index}`}
+            style="label-view"
+            text={item.date}
+          />
+        )
     }
   };
 
@@ -49,23 +64,20 @@ export const List = ({ style, select, label, array, add, action, actionForAdd })
     switch (style) {
       case "list-account-horizon":
         return (
-          <Link to="/main/create-new-account">
-            <Button 
-              style="button-image border center" 
-              image={addButton}
-            />
-          </Link>
+          <Button 
+            style="button-image border center" 
+            image={addButton}
+            action={actionForAdd}
+          />
         )
       default:
         return (
-          <Link to="/main/create-new-account">
-            <Button
-              style="button-image left"
-              label="Создать новый счет"
-              image={addButton}
-              action={actionForAdd}
-            />
-          </Link>
+          <Button
+            style="button-image left"
+            label="Создать новый счет"
+            image={addButton}
+            action={actionForAdd}
+          />
         );
     }
   };
@@ -74,7 +86,7 @@ export const List = ({ style, select, label, array, add, action, actionForAdd })
     <div className={`${style} ${select ? "select" : ""}`}>
       {style !== "list-account-small" && label ? <p>{label}</p> : null}
 
-      {array.map((item) => list(item))}
+      {array.map((item, index) => list(item, index))}
 
       {add ? buttonForAdd() : null}
     </div>

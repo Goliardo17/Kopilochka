@@ -3,7 +3,7 @@ import { NewAccountForm } from "./components/NewAccountForm";
 import { NewCategoryForm } from "./components/NewCategoryForm";
 import "./modal.css";
 
-export const Modal = ({ type, back }) => {
+export const Modal = ({ type }) => {
   const selectModal = () => {
     switch (type) {
       case "modal-new-account":

@@ -5,13 +5,14 @@ import "./input-calendar.css";
 
 export const Input = ({ style, type, placeholder, value, action }) => {
   return (
-    <div className={style}>
+    <>
       <input
+        className={style}
         type={type}
         placeholder={placeholder}
         value={value}
         onChange={(e) => action(e.target.value)}
       />
-    </div>
+    </>
   );
 };

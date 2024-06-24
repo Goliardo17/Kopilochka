@@ -4,7 +4,7 @@ import "./profile.css"
 export const Profile = () => {
   return (
     <div>
-      <img />
+      <img src="/" />
     </div>
   );
 };

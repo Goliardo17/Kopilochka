@@ -1,13 +1,34 @@
 .create-profile {
+  box-sizing: border-box;
+  /* margin: 25px; */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+
+  .create-profile-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .dummy {
+    height: 100%;
+    color: rgba(255, 255, 255, 0);
+  }
+
   input {
-    width: 250px;
+    max-width: 250px;
     padding: 6px 18px;
 
     font-size: 18px;
   }
 
   button {
-    width: 250px;
+    max-width: 250px;
     padding: 6px 18px;
 
     font-size: 18px;

@@ -8,12 +8,14 @@ import "./select-account.css";
 import "./select-currency.css";
 
 export const Select = ({ style, defaultAccount, label, action, array }) => {
-  const [item, setItem] = useState(defaultAccount);
+  const [item, setItem] = useState(() =>
+    defaultAccount ? defaultAccount : {}
+  );
   const [visibleList, setVisibleList] = useState(false);
 
   const changeItem = (newItem) => {
     setItem(newItem);
-    action(newItem.id);
+    action(newItem);
   };
 
   const fun = () => {
@@ -25,7 +27,7 @@ export const Select = ({ style, defaultAccount, label, action, array }) => {
       <div className={style} onClick={() => fun()}>
         <div className="select-content">
           <p>{label}</p>
-          {item ? (
+          {item.name ? (
             <>
               <p>
                 {item.name}/{item.amount} {item.currency}
@@ -35,7 +37,7 @@ export const Select = ({ style, defaultAccount, label, action, array }) => {
         </div>
 
         <div className="select-decorate">
-          {item ? (
+          {item.image ? (
             <img src={item.image ? item.image : defaultImage} width="30px" />
           ) : null}
         </div>

@@ -1,29 +1,22 @@
 import React, { useState } from "react"
+// Data
+import { currencies } from "../../../../../../data"
+//
 import { Button } from "../../../Button"
 import { Input } from "../../../Input"
 import { Select } from "../../../Select"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 // import { createNewAccount } from "../../../../../api/createNewAccount"
 
-const currencies = [
-  {
-    id: 1, 
-    name: "USD", 
-    currency: "USD", 
-    exchange: 0.00
-  }, 
-  {
-    id: 2, 
-    name: "RUB", 
-    currency: "RUB", 
-    exchange: 0.00
-  }
-]
-
 // currencyAccount содержит id валюты !!!
-export const NewAccountForm = ({ back }) => {
+export const NewAccountForm = () => {
   const [nameAccount, setNameAccount] = useState('')
   const [currencyAccount, setCurrencyAccount] = useState('')
+  const navigate = useNavigate()
+
+  const backToMain = () => {
+    navigate("/main")
+  }
 
   const changeNameAccount = (string) => {
     setNameAccount(string)
@@ -33,6 +26,7 @@ export const NewAccountForm = ({ back }) => {
     setCurrencyAccount(currency)
   }
 
+  // сделать асинхронной и что бы при нажатии на кнопку после создания счета пользователя направляло на главную
   const sendNewAccount = () => {
     const newAccount = {
       userId: 1,
@@ -40,18 +34,19 @@ export const NewAccountForm = ({ back }) => {
       currency: currencyAccount
     }
 
-    createNewAccount(newAccount)
+    console.log(newAccount)
+    // createNewAccount(newAccount)
+    navigate("/main")
   }
   
   return (
     <div className="container modal-new-account">
       <div className="modal-header">
-        <Link to="/main">
-          <Button 
-            style="button-service" 
-            label='На Главную'
-          />
-        </Link>
+        <Button 
+          style="button-service" 
+          label='На Главную'
+          action={backToMain}
+        />
         <h4>Введите данные нового счета</h4>
       </div>
 

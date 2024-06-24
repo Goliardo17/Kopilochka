@@ -1,9 +1,13 @@
 import React, { useState } from "react"
 import "./modal-new-category.css"
 
-export const NewCategoryForm = ({ back }) => {
+export const NewCategoryForm = () => {
   const [nameCategory, setNameCategory] = useState('')
   const [typeTransfer, setTypeTransfer] = useState('')
+
+  const backToMain = () => {
+    navigate("/main")
+  }
 
   const changeNameCategory = (string) => {
     setNameCategory(string)
@@ -20,7 +24,8 @@ export const NewCategoryForm = ({ back }) => {
       type: typeTransfer
     }
 
-    createNewAccount(newCategory)
+    // createNewAccount(newCategory)
+    navigate("/main")
   }
 
   // еще должен быть выбор картинки для категории !!!
@@ -30,7 +35,7 @@ export const NewCategoryForm = ({ back }) => {
       <div>
         <Button 
           style="button-service" 
-          action={() => back()}
+          action={backToMain}
         />
         <h4>Введите данные для новой категории</h4>
       </div>

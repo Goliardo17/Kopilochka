@@ -1,18 +1,31 @@
 import React from "react";
-import "./currency-small.css"
-import "./currency-medium.css"
+import "./styles/currency-small.css";
+import "./styles/currency-medium.css";
+import { CurrencyHelper } from "./components/CurrencyHelper";
+import { CurrencyPrimary } from "./components/CurrencyPrimary";
 
-export const Currency = ({ style, currency, action }) => {
+export const Currency = ({
+  style,
+  accountFrom,
+  tikerFrom,
+  currency,
+  action,
+}) => {
   return (
-    <div className={style}>
-      <img src={currency.image} />
-
-      <div className="currency-content">
-        <p>{currency.name}</p>
-        {style === "currency-small" ? <p>{currency.currency}</p> : <p>{currency.exchange} {currency.currency}</p>}
-      </div>
-    </div>
+    <>
+      {tikerFrom ? (
+        <CurrencyHelper
+          style={style}
+          tikerFrom={tikerFrom}
+          currency={currency}
+        />
+      ) : (
+        <CurrencyPrimary 
+          style={style}
+          account={accountFrom}
+          currency={currency}
+        />
+      )}
+    </>
   );
 };
-
-// Купить / Продать доллар США

@@ -1,10 +1,10 @@
 import React from "react";
-import "./button-primary.css";
-import "./button-service.css";
-import "./button-option.css";
-import "./button-disabled.css";
-import "./button-image.css";
-import "./mini.css";
+import "./styles/button-primary.css";
+import "./styles/button-service.css";
+import "./styles/button-option.css";
+import "./styles/button-disabled.css";
+import "./styles/button-image.css";
+import "./styles/mini.css";
 
 export const Button = ({ style, label, image, action }) => {
   return (

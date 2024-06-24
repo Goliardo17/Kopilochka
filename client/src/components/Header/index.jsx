@@ -9,9 +9,9 @@ export const Header = () => {
   return (
     <>
       <div className="header">
-        <Profile />
+        {/* <Profile /> */}
         <Menu />
-        <Other />
+        {/* <Other /> */}
       </div>
       <Outlet />
     </>
