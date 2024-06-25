@@ -41,10 +41,9 @@ export const Main = () => {
   };
 
   useEffect(() => {
-    const id = localStorage.getItem("id");
+    const id = Number(sessionStorage.getItem("id"))
     dispatch(getUserAccounts(id));
-
-    dispatch(getCurrencies());
+    // dispatch(getCurrencies());
   }, []);
 
   return (

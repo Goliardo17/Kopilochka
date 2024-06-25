@@ -1,11 +1,33 @@
 import { userAccounts } from "../../../data";
 
 export const fetchAccounts = (id) => {
-  return new Promise((res) => setTimeout(() => res(userAccounts), 500));
+  return new Promise((resolve, reject) => {
+    fetch('http://localhost:3333/get-accounts', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({id: id})
+    })
+      .then((res) => res.json())
+      .then((json) => resolve(json))
+      .catch((err) => console.log(err))
+  });
 };
 
-export const createAccount = (id) => {
-
+export const requestOfCreateAccount = (form) => {
+  return new Promise((resolve, reject) => {
+    fetch('http://localhost:3333/create-new-account', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(form)
+    })
+      .then((res) => res.json())
+      .then((json) => resolve(json)) // возвращает массив счетов
+      .catch((err) => console.log(err))
+  });
 };
 
 export const changeAmount = (transferForm) => {

@@ -7,36 +7,61 @@ import "./styles/create-profile.css";
 
 import { Input } from "../../ui/Input"
 import { Button } from "../../ui/Button"
+import { useNavigate } from "react-router-dom";
 
 export const Auth = () => {
   const [createNewProfile, setCreateNewProfile] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate()
 
   const changeForm = () => {
     setPassword("");
     setCreateNewProfile(!createNewProfile);
-  };
+  }
 
-  // const logIn = () => {
-  //   const user = {
-  //     email: email,
-  //     password: password,
-  //   };
+  const getUserId = async () => {
+    const userInfo = {
+      email: email,
+      password: password
+    }
 
-  //   getUser(user);
-  // };
+    if (email && password) {
+      await fetch('http://localhost:3333/enter-to-user', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userInfo)
+      })
+        .then((res) => res.json())
+        .then((json) => sessionStorage.setItem("id", json))
+      navigate("/main")
+    }
+  }
 
-  // const createNewUser = () => {
-  //   const user = {
-  //     name: name,
-  //     email: email,
-  //     password: password,
-  //   };
+  const createUser = async () => {
+    const userInfo = {
+      name: name,
+      email: email,
+      password: password
+    }
 
-  //   createUser(user);
-  // };
+    if (name && email && password) {
+      const response = await fetch('http://localhost:3333/create-user', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userInfo)
+      })
+
+      const json = response.json()
+
+      json ? changeForm() : console.log("Аккаунт уже зарегистрирован")
+    }
+  }
 
   return (
     <div className="container enter-form">
@@ -60,8 +85,8 @@ export const Auth = () => {
           >Зарегистрироваться</a>
           <Button
             style="button-primary"
-            label="Войти" 
-            // action={logIn}
+            label="Войти"
+            action={getUserId}
           />
         </div>
       ) : (
@@ -95,8 +120,8 @@ export const Auth = () => {
           />
           <Button
             style="button-primary"
-            label="Зарегистрироваться" 
-            // action={createNewUser}
+            label="Зарегистрироваться"
+            action={createUser}
           />
         </div>
       )}

@@ -6,13 +6,15 @@ import { Button } from "../../../Button"
 import { Input } from "../../../Input"
 import { Select } from "../../../Select"
 import { useNavigate } from "react-router-dom"
-// import { createNewAccount } from "../../../../../api/createNewAccount"
+import { useDispatch } from "react-redux"
+import { createAccount } from "../../../../slices/accounts/accountsSlice"
 
 // currencyAccount содержит id валюты !!!
 export const NewAccountForm = () => {
   const [nameAccount, setNameAccount] = useState('')
   const [currencyAccount, setCurrencyAccount] = useState('')
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const backToMain = () => {
     navigate("/main")
@@ -26,16 +28,17 @@ export const NewAccountForm = () => {
     setCurrencyAccount(currency)
   }
 
-  // сделать асинхронной и что бы при нажатии на кнопку после создания счета пользователя направляло на главную
   const sendNewAccount = () => {
-    const newAccount = {
-      userId: 1,
-      name: nameAccount,
-      currency: currencyAccount
-    }
+    const id = Number(sessionStorage.getItem("id"))
 
+    const newAccount = {
+      userId: id,
+      name: nameAccount,
+      currency: currencyAccount.exchange.source
+    }
     console.log(newAccount)
-    // createNewAccount(newAccount)
+
+    dispatch(createAccount(newAccount))
     navigate("/main")
   }
   

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { fetchAccounts, changeAmount, transferAmount } from "../../api/accountsApi"
+import { fetchAccounts, changeAmount, transferAmount, requestOfCreateAccount } from "../../api/accountsApi"
 
 export const getUserAccounts = createAsyncThunk(
   'accounts/fetchAccounts',
@@ -7,6 +7,15 @@ export const getUserAccounts = createAsyncThunk(
     const responce = await fetchAccounts(id)
 
     return responce
+  }
+)
+
+export const createAccount = createAsyncThunk(
+  'accounts/createAccount',
+  async (form) => {
+    const response = await requestOfCreateAccount(form)
+
+    return response
   }
 )
 
@@ -54,10 +63,15 @@ export const accountsSlice = createSlice({
     builder
       .addCase(getUserAccounts.fulfilled, (state, action) => {
         const accounts = action.payload
+        console.log(accounts)
         state.items = accounts
 
-        const defaultItem = state.selectItem.id ? state.selectItem : defaultAccount(state.items)
-        state.selectItem = defaultItem
+        state.selectItem = accounts.length ? accounts[0] : null
+      })
+      .addCase(createAccount.fulfilled, (state, action) => {
+        const accounts = action.payload
+        console.log(accounts)
+        state.items = accounts
       })
       .addCase(changeAccountAmount.fulfilled, (state, action) => {
         const accounts = action.payload
