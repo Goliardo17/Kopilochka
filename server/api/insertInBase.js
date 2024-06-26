@@ -26,10 +26,10 @@ const createNewAccount = async (newAccount) => {
 
 const createRecordOfTransfer = (date, transferForm) => {
   const write = db.prepare(`
-    INSERT INTO histories (type, acc_from, acc_to, sum, exchange, date, user_id) VALUES (?)
+    INSERT INTO histories (type, acc_from, acc_to, sum, exchange, date, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)
   `);
 
-  write.run(transferForm.type, transferForm.accountFrom, transferForm.accountTo, transferForm.amount, transferForm.exchange, date, transferForm.userId);
+  write.run(transferForm.type, transferForm.accountIdFrom, transferForm.accountIdTo, transferForm.amount, transferForm.exchange, date, transferForm.userId);
   write.finalize();
 }
 

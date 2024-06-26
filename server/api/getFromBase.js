@@ -29,8 +29,6 @@ const checkPassword = async (response, user) => {
       WHERE email = '${user.email}'
     `, [], (err, rows) => {
 
-      console.log(rows)
-
       if (!rows) {
         resolve(false)
       }

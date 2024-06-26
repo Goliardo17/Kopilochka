@@ -9,20 +9,15 @@ export const History = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const id = localStorage.getItem("id");
-    dispatch(getUserHistory(id))
+    const id = JSON.parse(sessionStorage.getItem("id"))
+    dispatch(getUserHistory(Number(id)))
   }, [])
 
   return (
     <div className="container histories">
       <h2>История операций</h2>
-      <div>
-        <select>по дате</select>
-        <select>по сумме</select>
-        <select>по категории</select>
-      </div>
       <List
-        style=""
+        style="list-history"
         array={history}  
       />
     </div>

@@ -1,14 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchHistory, createNewHistory } from "../../api/historyApi";
-
-export const createHistory = createAsyncThunk(
-  "histories/createHistory",
-  async (form) => {
-    const resp = await createNewHistory(form);
-
-    return resp;
-  }
-);
+import { fetchHistory } from "../../api/historyApi";
 
 export const getUserHistory = createAsyncThunk(
   "histories/fetchHistory",
@@ -27,20 +18,14 @@ export const historiesSlice = createSlice({
   },
   reducers: {
     selectAccountHistory: (state, action) => {
-      const accountId = action.payload;
-
-      state.accountHistory = accountId
+      const accountHistory = action.payload;
+      state.accountHistory = accountHistory
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getUserHistory.fulfilled, (state, action) => {
         const history = action.payload;
-        state.history = history;
-      })
-      .addCase(createHistory.fulfilled, (state, action) => {
-        const history = action.payload;
-        console.log(history)
         state.history = history;
       })
   },

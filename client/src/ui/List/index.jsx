@@ -46,7 +46,8 @@ export const List = ({ style, select, label, array, add, action, actionForAdd, a
         <Label
           key={`label-view-${index}`}
           style="label-view"
-          text={item.transfer.type}
+          record={item}
+          text={item.date}
         />
       );
       default:
@@ -54,7 +55,7 @@ export const List = ({ style, select, label, array, add, action, actionForAdd, a
           <Label 
             key={`label-view-${index}`}
             style="label-view"
-            text={item.date}
+            text={item}
           />
         )
     }

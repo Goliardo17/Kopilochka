@@ -6,8 +6,7 @@ export const CurrenciesList = ({ currencies, account }) => {
 
   return (
     <>
-      {
-        currencies.map((currency) => (
+        {currencies.map((currency) => (
           <Currency
             key={`currency-horizon-${currency.id}`}
             style="currency-medium"
@@ -17,8 +16,7 @@ export const CurrenciesList = ({ currencies, account }) => {
               quotes: quotes
             }}
           />
-        ))
-      }
+        ))}
     </>
   )
 }

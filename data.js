@@ -1,33 +1,5 @@
 // id присваивается не из БД, а в том порядке в котором они пришли
 
-export const userAccounts = [
-  {
-    id: 1,
-    name: "Первый счет пользователя",
-    currency: "USD",
-    default: true,
-    amount: 100.00
-  },
-  {
-    id: 2,
-    name: "Второй счет пользователя",
-    currency: "RUB",
-    amount: 50.00
-  },
-  {
-    id: 3,
-    name: "Третий счет пользователя",
-    currency: "RUB",
-    amount: 0.00
-  },
-  {
-    id: 4,
-    name: "Четвертый счет пользователя",
-    currency: "GBP",
-    amount: 50.00
-  }
-]
-
 export const categories = [
   {
     id: 1,
@@ -67,93 +39,79 @@ export const categories = [
   },
 ]
 
-export const history = [
-  {
-    date: "Sun Jun 23 2024 22:53:56 GMT+0300 (Москва, стандартное время)",
-    transfer: {
-      accountFrom: {id: 1, name: 'Первый счет пользователя', currency: 'USD', default: true, amount: 100},
-      accountTo: {id: 3, name: 'Третий счет пользователя', currency: 'RUB', amount: 0},
-      amount: 5,
-      category: "",
-      exchange: 87.96,
-      type: "revenues"
-    }
-  }
-]
-
 export const currencies = [
   {
     id: 1, 
     name: "United State Dollar",
-    image: "/",
+    image: "USD.svg",
     exchange: {
       timestamp: 1719162648,
       source: "USD",
       quotes: {
         USDRUB: 87.9600,
-        USDGBP: 0.79085,
+        USDEUR: 0.79085,
         USDCNY: 7.26000,
-        USDCAD: 1.37000
+        USDTRY: 1.37000
       }
     }
   }, 
   {
     id: 2, 
     name: "Russian Ruble",
-    image: "/", 
+    image: "RUB.svg", 
     exchange: {
       timestamp: 1719162648,
       source: "RUB",
       quotes: {
         RUBUSD: 0.011369,
-        RUBGBP: 0.008962,
+        RUBEUR: 0.008962,
         RUBCNY: 0.083019,
-        RUBCAD: 0.015573
+        RUBTRY: 0.015573
       }
     }
   },
   {
     id: 3, 
-    name: "Grate Britan Pound",
-    image: "/",
+    name: "Euro",
+    image: "EUR.svg",
     exchange: {
       timestamp: 1719162648,
-      source: "GBP",
+      source: "EUR",
       quotes: {
-        GBPRUB: 87.9600,
-        GBPUSD: 0.79085,
-        GBPCNY: 7.26000,
-        GBPCAD: 1.37000
+        EURRUB: 87.9600,
+        EURUSD: 0.79085,
+        EURCNY: 7.26000,
+        EURTRY: 1.37000
       }
     }
   }, 
   {
     id: 4, 
-    name: "Canadian Dollar",
-    image: "/",
+    name: "Turckech Lira",
+    image: "TRY.svg",
     exchange: {
       timestamp: 1719162648,
-      source: "CAD",
+      source: "TRY",
       quotes: {
-        CADRUB: 87.9600,
-        CADGBP: 0.79085,
-        CADCNY: 7.26000,
-        CADUSD: 1.37000
+        TRYRUB: 87.9600,
+        TRYEUR: 0.79085,
+        TRYCNY: 7.26000,
+        TRYUSD: 1.37000
       }
     }
   },
   {
     id: 5, 
     name: "Chinas Yuan",
-    image: "/",
+    image: "CNY.svg",
     exchange: {
       timestamp: 1719162648,
       source: "CNY",
       quotes: {
         CNYRUB: 87.9600,
-        CNYGBP: 0.79085,
+        CNYEUR: 0.79085,
         CNYUSD: 7.26000,
-        CNYCAD: 1.37000
+        CNYTRY: 1.37000
       }
     }
   }, 

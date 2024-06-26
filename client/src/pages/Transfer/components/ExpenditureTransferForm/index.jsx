@@ -38,16 +38,13 @@ export const ExpenditureTransferForm = ({ action }) => {
   }
 
   const submitForm = () => {
+    const id = JSON.parse(sessionStorage.getItem("id"))
+    transferForm.userId = Number(id)
     transferForm.accountFrom = selectedAccount
 
     dispatch(changeAccountAmount(transferForm))
     action()
   }
-
-  useEffect(() => {
-    const id = localStorage.getItem("id");
-    dispatch(getUserAccounts(id))
-  }, [])
 
   return (
     <div className="transfer">

@@ -43,7 +43,7 @@ export const Main = () => {
   useEffect(() => {
     const id = Number(sessionStorage.getItem("id"))
     dispatch(getUserAccounts(id));
-    // dispatch(getCurrencies());
+    dispatch(getCurrencies());
   }, []);
 
   return (
@@ -102,7 +102,7 @@ export const Main = () => {
         />
       </div>
 
-      {currencies.length ? (
+      {account.id &&  currencies.length ? (
         <div className="container main-currencies">
           <Slice label="Обмен валют" />
           <div className="list-currency-horizon">

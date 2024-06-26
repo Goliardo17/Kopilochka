@@ -17,9 +17,7 @@ export const RevenuesTransferForm = ({ action }) => {
     return form
   })
 
-  const changeTransferForm = (newTransferForm) => {
-    setTransferForm(newTransferForm)
-  }
+  const changeTransferForm = (newTransferForm) => setTransferForm(newTransferForm)
 
   const changeSelectTo = (account) => {
     const newValue = {...transferForm}
@@ -38,6 +36,8 @@ export const RevenuesTransferForm = ({ action }) => {
   }
 
   const submitForm = () => {
+    const id = JSON.parse(sessionStorage.getItem("id"))
+    transferForm.userId = Number(id)
     transferForm.accountTo = selectedAccount
 
     console.log(transferForm)
@@ -45,11 +45,6 @@ export const RevenuesTransferForm = ({ action }) => {
     dispatch(changeAccountAmount(transferForm))
     action()
   }
-
-  useEffect(() => {
-    const id = localStorage.getItem("id");
-    dispatch(getUserAccounts(id))
-  }, [])
 
   return (
     <div className="transfer">

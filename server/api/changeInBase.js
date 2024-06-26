@@ -12,7 +12,7 @@ const revenuesOnAccount = async (transferForm) => {
       UPDATE accounts
       SET amount = amount + ?
       WHERE id = ?
-    `, [transferForm.amount, transferForm.accountTo.id],
+    `, [transferForm.amount, transferForm.accountIdTo],
     (err) => {
       if (err) {
         reject(err)
@@ -29,7 +29,7 @@ const expenditureFromAccount = async (transferForm) => {
       UPDATE accounts
       SET amount = amount - ?
       WHERE id = ?
-    `, [transferForm.amount, transferForm.accountFrom.id],
+    `, [transferForm.amount, transferForm.accountIdFrom],
     (err) => {
       if (err) {
         reject(err)
@@ -48,7 +48,7 @@ const betweenAccounts = (transferForm) => {
   }
 
   const transferFormTo = {...transferForm}
-  transferFormTo.amount = transferForm.amount * transferForm.exchange
+  transferFormTo.amount = Number(transferForm.amount * transferForm.exchange).toFixed(2)
   expenditureFromAccount(transferForm)
   revenuesOnAccount(transferFormTo)
   return

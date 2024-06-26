@@ -37,14 +37,6 @@ export const transferAcountAmount = createAsyncThunk(
   }
 )
 
-const defaultAccount = (array) => {
-  const searchDefault = array.filter((account) => account.default);
-
-  return searchDefault.length == 1
-    ? searchDefault[0]
-    : console.log("У пользователя " + searchDefault.length + " счетов");
-}
-
 export const accountsSlice = createSlice({
   name: "accounts",
   initialState: {
@@ -77,17 +69,13 @@ export const accountsSlice = createSlice({
         const accounts = action.payload
         state.items = accounts
 
-        const defaultItem = state.selectItem.id ? state.selectItem : defaultAccount(state.items)
-        state.selectItem = defaultItem
+        state.selectItem = accounts.length ? accounts[0] : null
       })
       .addCase(transferAcountAmount.fulfilled, (state, action) => {
         const accounts = action.payload
         state.items = accounts
 
-        console.log(accounts)
-
-        const defaultItem = state.selectItem.id ? state.selectItem : defaultAccount(state.items)
-        state.selectItem = defaultItem
+        state.selectItem = accounts.length ? accounts[0] : null
       })
   }
 })

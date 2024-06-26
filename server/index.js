@@ -7,7 +7,7 @@ const { checkUserEmail, checkPassword, getUserAccounts, getUserHistory } = requi
 const { createNewUser, createNewAccount, createRecordOfTransfer } = require("./api/insertInBase.js");
 const { revenuesOnAccount, expenditureFromAccount, betweenAccounts } = require("./api/changeInBase.js");
 
-// createBase()
+createBase()
 
 app.use(cors());
 app.use(express.json());
@@ -61,9 +61,9 @@ app.post("/enter-to-user", async (req, res) => {
 
 // const userId = 1
 
-app.get("/get-history", async (req, res) => {
-  const userId = req.body;
-
+app.post("/get-history", async (req, res) => {
+  const userId = req.body.id
+  
   const userHistory = await getUserHistory(userId)
 
   if (userHistory) {
@@ -79,8 +79,7 @@ app.post("/get-accounts", async (req, res) => {
   const accounts = await getUserAccounts(userId)
 
   if (accounts.length) {
-    const response = accounts.length ? accounts : [accounts]
-    res.status(201).send(JSON.stringify(response))
+    res.status(201).send(JSON.stringify(accounts))
   }
 
   res.status(201).send()
@@ -101,8 +100,7 @@ app.post("/create-new-account", async (req, res) => {
   const userAccounts = await getUserAccounts(newAccount.userId)
 
   if (userAccounts.length) {
-    const response = userAccounts.length ? userAccounts : [userAccounts]
-    res.status(201).send(JSON.stringify(response))
+    res.status(201).send(JSON.stringify(userAccounts))
   }
 
   res.status(201).send()
@@ -119,58 +117,78 @@ app.post("/create-new-account", async (req, res) => {
 // }
 
 app.post("/transfer-income", async (req, res) => {
-  const transferForm = req.body
+  const body = req.body
+  
+  const transferForm = {
+    userId: body.userId,
+    accountNameFrom: body.accountFrom.name ? body.accountFrom.name : 0,
+    accountIdFrom: body.accountFrom.id ? body.accountFrom.id : 0,
+    accountNameTo: body.accountTo.name ? body.accountTo.name : 0,
+    accountIdTo: body.accountTo.id ? body.accountTo.id : 0,
+    type: body.type,
+    category: body.category,
+    amount: body.amount,
+    exchange: body.exchange
+  }
 
-  revenuesOnAccount(transferForm)
+  await revenuesOnAccount(transferForm)
 
   const date = new Date()
   createRecordOfTransfer(date, transferForm)
 
-  const userAccounts = getUserAccounts(transferForm.userId)
-  const userHistory = getUserHistory(transferForm.userId)
-  const response = {
-    accounts: userAccounts,
-    history: userHistory
-  }
+  const userAccounts = await getUserAccounts(transferForm.userId)
   
-  res.status(201).res(JSON.stringify(response))
+  res.status(201).send(JSON.stringify(userAccounts))
 });
 
 app.post("/transfer-expense", async (req, res) => {
-  const transferForm = req.body
+  const body = req.body
+  
+  const transferForm = {
+    userId: body.userId,
+    accountNameFrom: body.accountFrom.name ? body.accountFrom.name : 0,
+    accountIdFrom: body.accountFrom.id ? body.accountFrom.id : 0,
+    accountNameTo: body.accountTo.name ? body.accountTo.name : 0,
+    accountIdTo: body.accountTo.id ? body.accountTo.id : 0,
+    type: body.type,
+    category: body.category,
+    amount: body.amount,
+    exchange: body.exchange
+  }
 
-  expenditureFromAccount(transferForm)
+  await expenditureFromAccount(transferForm)
 
   const date = new Date()
   createRecordOfTransfer(date, transferForm)
 
-  const userAccounts = getUserAccounts(transferForm.userId)
-  const userHistory = getUserHistory(transferForm.userId)
-  const response = {
-    accounts: userAccounts,
-    history: userHistory
-  }
+  const userAccounts = await getUserAccounts(transferForm.userId)
   
-  res.status(201).res(JSON.stringify(response))
+  res.status(201).send(JSON.stringify(userAccounts))
 });
 
 app.post("/transfer-between", async (req, res) => {
-  const transferForm = req.body
+  const body = req.body
+  
+  const transferForm = {
+    userId: body.userId,
+    accountNameFrom: body.accountFrom.name ? body.accountFrom.name : 0,
+    accountIdFrom: body.accountFrom.id ? body.accountFrom.id : 0,
+    accountNameTo: body.accountTo.name ? body.accountTo.name : 0,
+    accountIdTo: body.accountTo.id ? body.accountTo.id : 0,
+    type: body.type,
+    category: body.category,
+    amount: body.amount,
+    exchange: body.exchange
+  }
 
-  betweenAccounts(transferForm)
+  await betweenAccounts(transferForm)
 
   const date = new Date()
   createRecordOfTransfer(date, transferForm)
 
-  const userAccounts = getUserAccounts(transferForm.userId)
-  const userHistory = getUserHistory(transferForm.userId)
-
-  const response = {
-    accounts: userAccounts,
-    history: userHistory
-  }
+  const userAccounts = await getUserAccounts(transferForm.userId)
   
-  res.status(201).res(JSON.stringify(response))
+  res.status(201).send(JSON.stringify(userAccounts))
 });
 
 app.listen(3333);
