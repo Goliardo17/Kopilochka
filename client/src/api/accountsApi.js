@@ -13,19 +13,14 @@ export const fetchAccounts = (id) => {
   });
 };
 
-export const requestOfCreateAccount = (form) => {
-  return new Promise((resolve, reject) => {
-    fetch('http://localhost:3333/create-new-account', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(form)
-    })
-      .then((res) => res.json())
-      .then((json) => resolve(json)) // возвращает массив счетов
-      .catch((err) => console.log(err))
-  });
+export const requestOfCreateAccount = async (form) => {
+  return await fetch('http://localhost:3333/create-new-account', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(form)
+  })
 };
 
 export const changeAmount = (form) => {

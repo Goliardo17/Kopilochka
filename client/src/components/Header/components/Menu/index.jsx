@@ -6,7 +6,8 @@ export const Menu = () => {
   return (
     <div className="header-menu">
       <NavLink to="/main">Главная</NavLink>
-      <NavLink to="/categories">Категории</NavLink>
+      {/* <NavLink to="/categories"></NavLink> */}
+      <a>Категории</a>
       <NavLink to="/history">История</NavLink>
     </div>
   );

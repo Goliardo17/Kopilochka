@@ -2,14 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Input } from "../../../../ui/Input";
 import { Select } from "../../../../ui/Select";
 import { Button } from "../../../../ui/Button";
-import { form } from "../../../../../../data";
+import { form } from "../../../../../public/data";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  getUserAccounts,
-  setSelectItem,
-  transferAcountAmount
-} from "../../../../slices/accounts/accountsSlice";
-import { Currency } from "../../../../ui/Currency";
+import { setSelectItem, transferAcountAmount } from "../../../../slices/accounts/accountsSlice";
 import { getCurrencies } from "../../../../slices/currencies/currenciesSlice";
 
 export const StandardTransferForm = ({ action }) => {
@@ -19,7 +14,7 @@ export const StandardTransferForm = ({ action }) => {
   const [accountTo, setAccountTo] = useState({});
   const [amountFrom, setAmountFrom] = useState();
   const [amountTo, setAmountTo] = useState();
-  const [exchangeCurrency, setEchangeCurrency] = useState({})
+  const [exchangeCurrency, setEchangeCurrency] = useState({});
   const [transferForm, setTransferForm] = useState(() => {
     form.type = "between";
     return form;
@@ -35,12 +30,16 @@ export const StandardTransferForm = ({ action }) => {
       : accountTo.currency;
 
     if (currencyFrom == currencyTo) {
-      setEchangeCurrency({})
-      return
+      setEchangeCurrency({});
+      return;
     }
 
-    const currency = currencies.filter((currency) => currency.exchange.source == currencyFrom)[0]
-    setEchangeCurrency(currency)
+    const currency = currencies.filter(
+      (currency) => currency.exchange.source == currencyFrom
+    )[0];
+    setEchangeCurrency(currency);
+    setAmountTo('')
+    setAmountFrom('')
   };
 
   const changeTransferForm = (type, account) => {
@@ -74,51 +73,56 @@ export const StandardTransferForm = ({ action }) => {
   const changeAmount = (type, value) => {
     const newForm = { ...transferForm };
 
-    newForm.exchange = exchangeCurrency.exchange.quotes[`${accountFrom.currency + accountTo.currency}`]
+    if (!exchangeCurrency.exchange) {
+      setAmountFrom(value)
+      setAmountTo(value)
+      return
+    }
+
+    newForm.exchange =
+      exchangeCurrency.exchange.quotes[
+        `${accountFrom.currency + accountTo.currency}`
+      ];
 
     if (type === "to") {
-      const amoutExchange = Number(value / newForm.exchange)
+      const amoutExchange = Number(value / newForm.exchange);
       setAmountTo(value);
       setAmountFrom(Number(amoutExchange).toFixed(2));
       return;
     }
 
-    const amoutExchange = (value * newForm.exchange)
+    const amoutExchange = value * newForm.exchange;
     setAmountFrom(value);
     setAmountTo(Number(amoutExchange).toFixed(2));
   };
 
-  const changeAmountFrom = (value) => changeAmount("from", value)
+  const changeAmountFrom = (value) => changeAmount("from", value);
 
-  const changeAmountTo = (value) => changeAmount("to", value)
+  const changeAmountTo = (value) => changeAmount("to", value);
 
   const submitForm = () => {
-    const id = JSON.parse(sessionStorage.getItem("id"))
-    transferForm.userId = Number(id)
-    transferForm.accountFrom = accountFrom
-    transferForm.exchange = Number(exchangeCurrency.exchange.quotes[`${transferForm.accountFrom.currency + transferForm.accountTo.currency}`]).toFixed(2)
-    transferForm.amount = Number(amountFrom).toFixed(2)
+    const id = JSON.parse(sessionStorage.getItem("id"));
+    transferForm.userId = Number(id);
+    transferForm.accountFrom = accountFrom;
+    transferForm.exchange = exchangeCurrency.exchange ? Number(
+      exchangeCurrency.exchange.quotes[
+        `${transferForm.accountFrom.currency + transferForm.accountTo.currency}`
+      ]
+    ).toFixed(2) : exchangeCurrency.exchange = 1
+    transferForm.amount = Number(amountFrom).toFixed(2);
 
     dispatch(transferAcountAmount(transferForm));
     action();
   };
 
   useEffect(() => {
-    dispatch(getCurrencies())
-  }, [])
+    dispatch(getCurrencies());
+  }, []);
 
   return (
     <div className="transfer">
       <div className="transfer-header-wrapper">
         <h3>Перевод между своими счетами / Обмен валют</h3>
-        {/* {exchangeCurrency.id ?
-          <Currency 
-          style="currency-medium" 
-          tikerFrom={accountFrom.currency}
-          currency={exchangeCurrency} 
-        />
-        : null
-        } */}
       </div>
 
       <Select
@@ -135,13 +139,15 @@ export const StandardTransferForm = ({ action }) => {
         label="Счет для зачисления средств"
         action={changeSelectTo}
       />
-      <Input
-        style="data"
-        placeholder="Сумма в валюте счета зачисления"
-        type="number"
-        value={amountTo}
-        action={changeAmountTo}
-      />
+      {exchangeCurrency.exchange ? (
+        <Input
+          style="data"
+          placeholder="Сумма в валюте счета зачисления"
+          type="number"
+          value={amountTo}
+          action={changeAmountTo}
+        />
+      ) : null}
       <Input
         style="data"
         placeholder="Сумма в валюте счета списания"

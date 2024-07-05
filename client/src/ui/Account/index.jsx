@@ -1,9 +1,6 @@
 import React from "react";
-// Media
-import accountImage from "./image/account.svg";
-import openEye from "./image/openEye.svg";
-import closeEye from "./image/closeEye.svg";
-// Styles
+import accountImage from "./images/account.svg";
+import openEye from "./images/openEye.svg";
 import "./styles/account-large.css";
 import "./styles/account-medium.css";
 import "./styles/account-small.css";
@@ -13,19 +10,14 @@ export const Account = ({ style, account, action }) => {
   return (
     <div
       className={style}
-      onClick={() =>
-        action ? action(account) : null
-        // style === "account-small" || style === "account-view"
-        //   ? action(account)
-        //   : null
-      }
+      onClick={() => action ? action(account) : null}
     >
       <div className="account-wrapper">
         <h4>{account.name}</h4>
 
         <div className="amount-wrapper">
           <p>
-            {account.amount} {account.currency}
+            {Number(account.amount).toFixed(2)} {account.currency}
           </p>
 
           {style == "account-medium" ? <img src={openEye} /> : null}
@@ -41,7 +33,3 @@ export const Account = ({ style, account, action }) => {
     </div>
   );
 };
-
-// сделать скрывающееся состояние суммы на счете
-// добавить <span>
-// добавить навигацию

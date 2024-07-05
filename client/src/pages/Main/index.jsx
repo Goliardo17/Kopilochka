@@ -102,7 +102,7 @@ export const Main = () => {
         />
       </div>
 
-      {account.id &&  currencies.length ? (
+      {account.id && currencies.length ? (
         <div className="container main-currencies">
           <Slice label="Обмен валют" />
           <div className="list-currency-horizon">

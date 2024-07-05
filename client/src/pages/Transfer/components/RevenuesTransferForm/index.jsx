@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Input } from "../../../../ui/Input";
 import { Select } from "../../../../ui/Select";
 import { Button } from "../../../../ui/Button";
-import { form } from "../../../../../../data";
+import { form } from "../../../../../public/data";
 import { useSelector, useDispatch } from "react-redux";
-import { getUserAccounts, setSelectItem, changeAccountAmount } from "../../../../slices/accounts/accountsSlice";
+import { setSelectItem, changeAccountAmount } from "../../../../slices/accounts/accountsSlice";
 
 export const RevenuesTransferForm = ({ action }) => {
   const accounts = useSelector((state) => state.accounts.items)
   const selectedAccount = useSelector((state) => state.accounts.selectItem)
   const dispatch = useDispatch()
-  console.log(selectedAccount)
   
   const [transferForm, setTransferForm] = useState(() => {
     form.type = "revenues"

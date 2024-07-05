@@ -40,17 +40,17 @@ const expenditureFromAccount = async (transferForm) => {
   })
 }
 
-const betweenAccounts = (transferForm) => {
+const betweenAccounts = async (transferForm) => {
   if (transferForm.exchange == 1) {
-    expenditureFromAccount(transferForm)
-    revenuesOnAccount(transferForm)
+    await expenditureFromAccount(transferForm)
+    await revenuesOnAccount(transferForm)
     return
   }
 
   const transferFormTo = {...transferForm}
   transferFormTo.amount = Number(transferForm.amount * transferForm.exchange).toFixed(2)
-  expenditureFromAccount(transferForm)
-  revenuesOnAccount(transferFormTo)
+  await expenditureFromAccount(transferForm)
+  await revenuesOnAccount(transferFormTo)
   return
 }
 

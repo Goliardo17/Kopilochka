@@ -1,16 +1,13 @@
 import React, { useState } from "react"
-// Data
-import { currencies } from "../../../../../../data"
-//
 import { Button } from "../../../Button"
 import { Input } from "../../../Input"
 import { Select } from "../../../Select"
 import { useNavigate } from "react-router-dom"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { createAccount } from "../../../../slices/accounts/accountsSlice"
 
-// currencyAccount содержит id валюты !!!
 export const NewAccountForm = () => {
+  const currencies = useSelector((state) => state.currencies.value)
   const [nameAccount, setNameAccount] = useState('')
   const [currencyAccount, setCurrencyAccount] = useState('')
   const navigate = useNavigate()
@@ -62,7 +59,7 @@ export const NewAccountForm = () => {
         />
 
         <Select 
-          style='select-currency-vertical'
+          style='select-currency'
           value={currencyAccount}
           label='Валюта счета'
           array={currencies} 

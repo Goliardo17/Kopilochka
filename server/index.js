@@ -11,28 +11,6 @@ createBase()
 
 app.use(cors());
 app.use(express.json());
-app.use((req, res, next) => {
-  console.log(req.url)
-  next()
-})
-
-// const user = {
-//     name: 'Aleksandr',
-//     email: 'testing@server.localHost',
-//     password: '171200'
-// }
-
-// const secondUser = (
-//   name: "Anna",
-//   email: "stars@fish.analitics",
-//   password: "6j6j6j"
-// )
-
-// const secondUser = (
-//   name: "Varvara",
-//   email: "chinchila@mex.fun",
-//   password: "runbymy"
-// )
 
 app.post("/create-user", async (req, res) => {
   const newUser = req.body;
@@ -59,8 +37,6 @@ app.post("/enter-to-user", async (req, res) => {
   }
 });
 
-// const userId = 1
-
 app.post("/get-history", async (req, res) => {
   const userId = req.body.id
   
@@ -85,36 +61,13 @@ app.post("/get-accounts", async (req, res) => {
   res.status(201).send()
 });
 
-// const newAccount = {
-//   userId: Number(1),
-//   name: String("First account"),
-//   image: String("/"),
-//   currency: Number("RUB")
-// };
-
 app.post("/create-new-account", async (req, res) => {
   const newAccount = req.body
 
-  await createNewAccount(newAccount)
-
-  const userAccounts = await getUserAccounts(newAccount.userId)
-
-  if (userAccounts.length) {
-    res.status(201).send(JSON.stringify(userAccounts))
-  }
+  createNewAccount(newAccount)
 
   res.status(201).send()
 });
-
-// const transferForm = {
-//   userId: Number(1),
-//   accountFrom: 0,
-//   accountTo: {id: 1, name: "First account", amount: 0, userId: 1},
-//   type: String("income"),
-//   category: String(""),
-//   amount: Number(10.00),
-//   exchange: Number(1.00)
-// }
 
 app.post("/transfer-income", async (req, res) => {
   const body = req.body

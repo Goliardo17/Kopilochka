@@ -15,7 +15,7 @@ const createNewUser = (user) => {
   write.finalize();
 };
 
-const createNewAccount = async (newAccount) => {
+const createNewAccount = (newAccount) => {
   const write = db.prepare(`
     INSERT INTO accounts (name, currency, amount, user_id) VALUES (?, ?, ?, ?)
   `);

@@ -3,6 +3,7 @@ import { Account } from "../Account";
 import { Button } from "../Button";
 import addButton from "./image/add.svg";
 import { Currency } from "../Currency";
+import "./styles/list-currency.css"
 import "./styles/list-account-vertical.css";
 import "./styles/list-account-horizon.css";
 import "./styles/list-currency-horizon.css";
@@ -38,7 +39,6 @@ export const List = ({ style, select, label, array, add, action, actionForAdd, a
             style="currency-medium"
             account={account}
             currency={item}
-            onClick={() => console.log(item)}
           />
         );
       case "list-history":
@@ -50,6 +50,15 @@ export const List = ({ style, select, label, array, add, action, actionForAdd, a
           text={item.date}
         />
       );
+      case "list-currency":
+        return (
+          <Currency
+            key={`currency-vertical-${index}`}
+            style="currency-view"
+            currency={item}
+            action={action}
+          />
+        );
       default:
         return (
           <Label 

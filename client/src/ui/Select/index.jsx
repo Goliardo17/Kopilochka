@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { List } from "../List";
-import toHide from "./hide.svg";
-import toShow from "./show.svg";
-import defaultImage from "./account.svg";
-import "./select-wrapper.css";
-import "./select-account.css";
-import "./select-currency.css";
+import "./styles/select-wrapper.css";
+import "./styles/select-account.css";
+import "./styles/select-currency.css";
+import { SelectAccount } from "./components/SelectAccount";
+import { SelectCurrency } from "./components/SelectCurrency";
 
 export const Select = ({ style, defaultAccount, label, action, array }) => {
   const [item, setItem] = useState(() =>
@@ -18,38 +16,24 @@ export const Select = ({ style, defaultAccount, label, action, array }) => {
     action(newItem);
   };
 
-  const fun = () => {
+  const hideOrShow = () => {
     setVisibleList(!visibleList);
   };
 
-  return (
-    <div className="select-wrapper">
-      <div className={style} onClick={() => fun()}>
-        <div className="select-content">
-          <p>{label}</p>
-          {item.name ? (
-            <>
-              <p>
-                {item.name}/{item.amount} {item.currency}
-              </p>
-            </>
-          ) : null}
-        </div>
+  const selectContent = () => {
+    switch (style) {
+      case 'select-currency':
+        return <SelectCurrency style={style} item={item} label={label} array={array} vis={visibleList} action={changeItem}/>
+      default:
+        return <SelectAccount style={style} item={item} label={label} array={array} vis={visibleList} action={changeItem}/>
+    }
+  }
 
-        <div className="select-decorate">
-          {item.image ? (
-            <img src={item.image ? item.image : defaultImage} width="30px" />
-          ) : null}
-        </div>
-      </div>
-      {visibleList ? (
-        <List
-          style="list-account-vertical"
-          select={true}
-          array={array}
-          action={changeItem}
-        />
-      ) : null}
+  return (
+    <div className="select-wrapper" onClick={() => hideOrShow()}>
+      {
+        selectContent()
+      }
     </div>
   );
 };

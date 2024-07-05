@@ -1,8 +1,12 @@
 import React from "react";
 import { Currency } from "../../../../ui/Currency";
 
+export const getQuotes = (currencies, account) => {
+  return currencies.filter((currency) => currency.exchange.source == account.currency)
+}
+
 export const CurrenciesList = ({ currencies, account }) => {
-  const quotes = currencies.filter((currency) => currency.exchange.source == account.currency)[0].exchange.quotes
+  const quotes = getQuotes(currencies, account)
 
   return (
     <>
@@ -13,7 +17,7 @@ export const CurrenciesList = ({ currencies, account }) => {
             currency={currency} 
             accountFrom={{
               data: account,
-              quotes: quotes
+              quotes: quotes[0].exchange.quotes
             }}
           />
         ))}

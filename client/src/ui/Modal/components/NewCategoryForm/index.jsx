@@ -24,11 +24,8 @@ export const NewCategoryForm = () => {
       type: typeTransfer
     }
 
-    // createNewAccount(newCategory)
     navigate("/main")
   }
-
-  // еще должен быть выбор картинки для категории !!!
   
   return (
     <div className="modal-new-category">

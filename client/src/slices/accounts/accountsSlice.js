@@ -13,9 +13,11 @@ export const getUserAccounts = createAsyncThunk(
 export const createAccount = createAsyncThunk(
   'accounts/createAccount',
   async (form) => {
-    const response = await requestOfCreateAccount(form)
+    await requestOfCreateAccount(form)
+    
+    const responce = await fetchAccounts(form.userId)
 
-    return response
+    return responce
   }
 )
 
@@ -54,16 +56,17 @@ export const accountsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getUserAccounts.fulfilled, (state, action) => {
+        console.log(action.payload)
         const accounts = action.payload
-        console.log(accounts)
         state.items = accounts
 
         state.selectItem = accounts.length ? accounts[0] : null
       })
       .addCase(createAccount.fulfilled, (state, action) => {
         const accounts = action.payload
-        console.log(accounts)
         state.items = accounts
+
+        state.selectItem = accounts.length ? accounts[0] : null
       })
       .addCase(changeAccountAmount.fulfilled, (state, action) => {
         const accounts = action.payload

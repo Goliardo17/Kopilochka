@@ -1,0 +1,4 @@
+.list-history {
+    display: flex;
+    flex-direction: column;
+}

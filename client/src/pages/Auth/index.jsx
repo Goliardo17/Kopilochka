@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-// import { createUser } from "../../api/createUser";
-// import { getUser } from "../../api/getUser";
 import "./styles/enter-form.css";
 import "./styles/auth-profile.css";
 import "./styles/create-profile.css";

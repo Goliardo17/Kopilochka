@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "../../ui/Button";
 import { RevenuesTransferForm } from "./components/RevenuesTransferForm"
 import { ExpenditureTransferForm } from "./components/ExpenditureTransferForm"

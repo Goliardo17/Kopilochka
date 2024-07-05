@@ -3,7 +3,7 @@ import { Profile } from "./components/Profile"
 import { Menu } from "./components/Menu"
 import { Other } from "./components/Other"
 import { Outlet } from "react-router-dom"
-import "./header.css"
+import "./styles/header.css"
 
 export const Header = () => {
   return (
