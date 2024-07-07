@@ -2,45 +2,92 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 
-const { createBase } = require("./api/createBase.js");
-const { checkUserEmail, checkPassword, getUserAccounts, getUserHistory } = require("./api/getFromBase.js");
-const { createNewUser, createNewAccount, createRecordOfTransfer } = require("./api/insertInBase.js");
-const { revenuesOnAccount, expenditureFromAccount, betweenAccounts } = require("./api/changeInBase.js");
-
-createBase()
+const { userControllers } = require('./controllers/user.controllers.js')
+const { baseControllers } = require('./controllers/base.controllers.js')
+const { accountControllers } = require('./controllers/account.controllers.js')
+const { transferControllers } = require('./controllers/transfer.controllers.js')
+const { historyControllers } = require('./controllers/history.controllers.js')
+const { currencyControllers } = require('./controllers/currency.controllers.js')
 
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+  baseControllers.createBase()
+  next()
+})
 
 app.post("/create-user", async (req, res) => {
   const newUser = req.body;
 
-  const check = await checkUserEmail(newUser.email);
+  const response = await userControllers.createUser(newUser)
 
-  if (check) {
-    res.status(400).send(JSON.stringify("Аккаунт уже существует"));
+  if (response) {
+    res.status(201).send(JSON.stringify(response));
   } else {
-    createNewUser(newUser);
-    res.status(201).send(JSON.stringify(true));
+    res.status(400).send(JSON.stringify());
   }
 });
 
-app.post("/enter-to-user", async (req, res) => {
-  const user = req.body;
+app.post("/enter-to-user", (req, res) => {
+  const userInfo = req.body;
 
-  const check = await checkUserEmail(user.email);
+  const userId = userControllers.logInUser(userInfo)
 
-  if (!check) {
-    res.status(400).send(JSON.stringify("Аккаунта не существует"));
+  if (userId) {
+    res.status(201).send(JSON.stringify(userId));
   } else {
-    checkPassword(res, user);
+    res.status(400).send(JSON.stringify());
   }
+});
+
+app.post("/get-accounts", async (req, res) => {
+  const userId = req.body.id
+
+  const userAccounts = accountControllers.getUserAccounts(userId)
+
+  res.status(201).send(JSON.stringify(userAccounts))
+});
+
+app.post("/create-new-account", async (req, res) => {
+  const newAccount = req.body
+
+  const response = accountControllers.createAccount(newAccount)
+
+  if (response) {
+    res.status(201).send(JSON.stringify(true));
+  } else {
+    res.status(400).send(JSON.stringify());
+  }
+});
+
+app.post("/transfer-income", async (req, res) => {
+  const form = req.body
+
+  const userAccounts = transferControllers.transferToAccount(form)
+  
+  res.status(201).send(JSON.stringify(userAccounts))
+});
+
+app.post("/transfer-expense", async (req, res) => {
+  const form = req.body
+
+  const userAccounts = transferControllers.transferFromAccount(form)
+  
+  res.status(201).send(JSON.stringify(userAccounts))
+});
+
+app.post("/transfer-between", async (req, res) => {
+  const form = req.body
+
+  const userAccounts = transferControllers.transferBetweenAccounts(form)
+  
+  res.status(201).send(JSON.stringify(userAccounts))
 });
 
 app.post("/get-history", async (req, res) => {
   const userId = req.body.id
   
-  const userHistory = await getUserHistory(userId)
+  const userHistory = historyControllers.getUserHistory(userId)
 
   if (userHistory) {
     res.status(201).send(JSON.stringify(userHistory))
@@ -49,99 +96,11 @@ app.post("/get-history", async (req, res) => {
   }
 });
 
-app.post("/get-accounts", async (req, res) => {
-  const userId = req.body.id
+app.get("/get-currencies", async (req, res) => {
+  const currenciesJSON = currencyControllers.getCurrencies()
 
-  const accounts = await getUserAccounts(userId)
+  res.status(201).send(currenciesJSON)
+})
 
-  if (accounts.length) {
-    res.status(201).send(JSON.stringify(accounts))
-  }
-
-  res.status(201).send()
-});
-
-app.post("/create-new-account", async (req, res) => {
-  const newAccount = req.body
-
-  createNewAccount(newAccount)
-
-  res.status(201).send()
-});
-
-app.post("/transfer-income", async (req, res) => {
-  const body = req.body
-  
-  const transferForm = {
-    userId: body.userId,
-    accountNameFrom: body.accountFrom.name ? body.accountFrom.name : 0,
-    accountIdFrom: body.accountFrom.id ? body.accountFrom.id : 0,
-    accountNameTo: body.accountTo.name ? body.accountTo.name : 0,
-    accountIdTo: body.accountTo.id ? body.accountTo.id : 0,
-    type: body.type,
-    category: body.category,
-    amount: body.amount,
-    exchange: body.exchange
-  }
-
-  await revenuesOnAccount(transferForm)
-
-  const date = new Date()
-  createRecordOfTransfer(date, transferForm)
-
-  const userAccounts = await getUserAccounts(transferForm.userId)
-  
-  res.status(201).send(JSON.stringify(userAccounts))
-});
-
-app.post("/transfer-expense", async (req, res) => {
-  const body = req.body
-  
-  const transferForm = {
-    userId: body.userId,
-    accountNameFrom: body.accountFrom.name ? body.accountFrom.name : 0,
-    accountIdFrom: body.accountFrom.id ? body.accountFrom.id : 0,
-    accountNameTo: body.accountTo.name ? body.accountTo.name : 0,
-    accountIdTo: body.accountTo.id ? body.accountTo.id : 0,
-    type: body.type,
-    category: body.category,
-    amount: body.amount,
-    exchange: body.exchange
-  }
-
-  await expenditureFromAccount(transferForm)
-
-  const date = new Date()
-  createRecordOfTransfer(date, transferForm)
-
-  const userAccounts = await getUserAccounts(transferForm.userId)
-  
-  res.status(201).send(JSON.stringify(userAccounts))
-});
-
-app.post("/transfer-between", async (req, res) => {
-  const body = req.body
-  
-  const transferForm = {
-    userId: body.userId,
-    accountNameFrom: body.accountFrom.name ? body.accountFrom.name : 0,
-    accountIdFrom: body.accountFrom.id ? body.accountFrom.id : 0,
-    accountNameTo: body.accountTo.name ? body.accountTo.name : 0,
-    accountIdTo: body.accountTo.id ? body.accountTo.id : 0,
-    type: body.type,
-    category: body.category,
-    amount: body.amount,
-    exchange: body.exchange
-  }
-
-  await betweenAccounts(transferForm)
-
-  const date = new Date()
-  createRecordOfTransfer(date, transferForm)
-
-  const userAccounts = await getUserAccounts(transferForm.userId)
-  
-  res.status(201).send(JSON.stringify(userAccounts))
-});
 
 app.listen(3333);

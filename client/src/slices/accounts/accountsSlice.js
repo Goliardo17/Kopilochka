@@ -56,7 +56,6 @@ export const accountsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getUserAccounts.fulfilled, (state, action) => {
-        console.log(action.payload)
         const accounts = action.payload
         state.items = accounts
 

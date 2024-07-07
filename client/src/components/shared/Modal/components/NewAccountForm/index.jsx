@@ -4,7 +4,7 @@ import { Input } from "../../../Input"
 import { Select } from "../../../Select"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { createAccount } from "../../../../slices/accounts/accountsSlice"
+import { createAccount } from "../../../../../slices/accounts/accountsSlice"
 
 export const NewAccountForm = () => {
   const currencies = useSelector((state) => state.currencies.value)

@@ -1,5 +1,5 @@
 import React from "react";
-import { Currency } from "../../../../ui/Currency";
+import { Currency } from "../../../../components/shared/Currency";
 
 export const getQuotes = (currencies, account) => {
   return currencies.filter((currency) => currency.exchange.source == account.currency)

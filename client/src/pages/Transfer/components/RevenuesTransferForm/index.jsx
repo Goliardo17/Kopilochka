@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Input } from "../../../../ui/Input";
-import { Select } from "../../../../ui/Select";
-import { Button } from "../../../../ui/Button";
+import { Input } from "../../../../components/shared/Input";
+import { Select } from "../../../../components/shared/Select";
+import { Button } from "../../../../components/shared/Button";
 import { form } from "../../../../../public/data";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectItem, changeAccountAmount } from "../../../../slices/accounts/accountsSlice";
@@ -38,8 +38,6 @@ export const RevenuesTransferForm = ({ action }) => {
     const id = JSON.parse(sessionStorage.getItem("id"))
     transferForm.userId = Number(id)
     transferForm.accountTo = selectedAccount
-
-    console.log(transferForm)
 
     dispatch(changeAccountAmount(transferForm))
     action()

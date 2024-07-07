@@ -20,7 +20,7 @@ const checkUserEmail = async (userEmail) => {
       err ? reject(err) : resolve(true)
     })
   })
-};
+}
 
 const checkPassword = async (response, user) => {
   const userId = await new Promise ((resolve, reject) => {
@@ -37,14 +37,14 @@ const checkPassword = async (response, user) => {
         resolve(rows.id)
       }
 
-      reject(err)
+      resolve(false)
     })
   })
 
   if (userId) {
     response.status(201).send(JSON.stringify(userId))
   } else {
-    response.status(401).send('Что то пошло не так, повторите попытку позже')
+    response.status(401).send(JSON.stringify(false))
   }
 }
 

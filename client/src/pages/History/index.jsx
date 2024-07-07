@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { List } from "../../ui/List"
+import { List } from "../../components/shared/List"
 import { useDispatch, useSelector } from "react-redux"
 import "./history.css"
 import { getUserHistory } from "../../slices/histories/historiesSlice"

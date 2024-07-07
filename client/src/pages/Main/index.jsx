@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./main.css";
-import { Account } from "../../ui/Account";
-import { List } from "../../ui/List";
-import { Button } from "../../ui/Button";
+import { Account } from "../../components/shared/Account";
+import { List } from "../../components/shared/List";
+import { Button } from "../../components/shared/Button";
 import { Slice } from "./components/Slice";
-import { Label } from "../../ui/Label";
+import { Label } from "../../components/shared/Label";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserAccounts } from "../../slices/accounts/accountsSlice";

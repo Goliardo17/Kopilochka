@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "../../ui/Button";
+import { Button } from "../../components/shared/Button";
 import { RevenuesTransferForm } from "./components/RevenuesTransferForm"
 import { ExpenditureTransferForm } from "./components/ExpenditureTransferForm"
 import { StandardTransferForm } from "./components/StandardTransferForm"

@@ -1,78 +1,74 @@
-export const fetchAccounts = (id) => {
-  return new Promise((resolve, reject) => {
-    fetch('http://localhost:3333/get-accounts', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({id: id})
-    })
-      .then((res) => res.json())
-      .then((json) => resolve(json))
-      .catch((err) => console.log(err))
-  });
+import { SERVER } from "./constant";
+
+export const fetchAccounts = async (id) => {
+  const response = await fetch(`${SERVER + '/get-accounts'}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id: id }),
+  })
+  
+  const json = response.json();
+  return json;
 };
 
 export const requestOfCreateAccount = async (form) => {
-  return await fetch('http://localhost:3333/create-new-account', {
+  await fetch(`${SERVER + '/create-new-account'}`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(form)
-  })
+  });
+
+  return;
 };
 
 export const changeAmount = (form) => {
   switch (form.type) {
-    case "expenditure": 
-      return expenditure(form)  
+    case "expenditure":
+      return expenditure(form);
     default:
-      return income(form)
-  } 
+      return income(form);
+  }
+};
+
+export const transferAmount = async (form) => {
+  const response = await fetch(`${SERVER + '/transfer-between'}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(form),
+  })
+
+  const json = response.json();
+  return json;
+};
+
+async function income(form) {
+  const response = await fetch(`${SERVER + '/transfer-income'}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(form),
+  })
+
+  const json = response.json();
+  return json;
 }
 
-export const transferAmount = (form) => {
-  return new Promise ((resolve, reject) => {
-    fetch('http://localhost:3333/transfer-between', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(form)
-    })
-      .then((res) => res.json())
-      .then((json) => resolve(json))
-      .catch((err) => console.log(err))
+async function expenditure(form) {
+  const response = await fetch(`${SERVER + '/transfer-expense'}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(form),
   })
-}
 
-function income (form) {
-  return new Promise ((resolve, reject) => {
-    fetch('http://localhost:3333/transfer-income', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(form)
-    })
-      .then((res) => res.json())
-      .then((json) => resolve(json))
-      .catch((err) => console.log(err))
-  })
-}
-
-function expenditure (form) {
-  return new Promise ((resolve, reject) => {
-    fetch('http://localhost:3333/transfer-expense', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(form)
-    })
-      .then((res) => res.json())
-      .then((json) => resolve(json))
-      .catch((err) => console.log(err))
-  })
+  const json = response.json();
+  return json;
 }
