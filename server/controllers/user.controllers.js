@@ -1,17 +1,21 @@
 const { userService } = require("../services/user.service");
 
 const createUser = async (userInfo) => {
-  const checkUserEmail = await userService.getUserEmail(userInfo.email);
+  const user = await userService.getUser(userInfo.email);
 
-  if (checkUserEmail) return false
+  if (user?.email) return false
 
   userService.createNewUser(userInfo);
-
+  
   return true;
 };
 
-const logInUser = (userInfo) => {
-  const userInDatabase = userService.getUser(userInfo);
+const logInUser = async (userInfo) => {
+  const userInDatabase = await userService.getUser(userInfo);
+
+  if (!userInDatabase) {
+    return false
+  }
 
   if (userInfo.password === userInDatabase.password) {
     return userInDatabase.id;
@@ -26,5 +30,3 @@ const userControllers = {
 };
 
 module.exports = { userControllers };
-
-// добавить валидацию

@@ -1,55 +1,61 @@
+const { currencyControllers } = require("../controllers/currency.controllers");
+const { historyControllers } = require("../controllers/history.controllers");
 const { transferService } = require("../services/transfer.service");
+const { accountService } = require("../services/account.service");
 
-const createTransferForm = (form) => ({
-  userId: form.userId,
-  accountNameFrom: form.accountFrom.name ? form.accountFrom.name : 0,
-  accountIdFrom: form.accountFrom.id ? form.accountFrom.id : 0,
-  accountNameTo: form.accountTo.name ? form.accountTo.name : 0,
-  accountIdTo: form.accountTo.id ? form.accountTo.id : 0,
-  type: form.type,
-  category: form.category,
-  amount: form.amount,
-  exchange: form.exchange,
-});
+const transferToAccount = async (form) => {
+  await transferService.revenuesToAccount(form.amount, form.accountIdTo);
 
-const transferToAccount = (form) => {
-  const transferForm = createTransferForm(form)
+  const userAccounts = await accountService.getUserAccounts(form.userId);
+  await historyControllers.recordTransfer(form);
 
-  return transferService.revenuesOnAccount(transferForm);
+  return userAccounts;
 };
 
-const transferFromAccount = (form) => {
-  const transferForm = createTransferForm(form)
+const transferFromAccount = async (form) => {
+  const accountFrom = await accountService.getAccount(form.accountIdFrom);
+  const checkAmount = accountFrom.amount >= form.amount;
 
-  transferService.debitingFromAccount(transferForm);
-};
-
-const transferBetweenAccounts = (form) => {
-  const transferForm = createTransferForm(form)
-
-  if (transferForm.exchange == 1) {
-    transferService.debitingFromAccount(transferForm);
-    transferService.revenuesOnAccount(transferForm);
-    return true;
+  if (accountFrom?.id && checkAmount) {
+    await transferService.debitingFromAccount(form.amount, form.accountIdFrom);
+    await historyControllers.recordTransfer(form);
   }
 
-  const transferFormTo = { ...transferForm };
-  transferFormTo.amount = Number(
-    transferForm.amount * transferForm.exchange
-  ).toFixed(2);
-  transferService.debitingFromAccount(transferForm);
-  transferService.revenuesOnAccount(transferFormTo);
-  return true;
+  const userAccounts = await accountService.getUserAccounts(form.userId);
+
+  return userAccounts;
+};
+
+const transferBetweenAccounts = async (form) => {
+  const accountFrom = await accountService.getAccount(form.accountIdFrom);
+  const accountTo = await accountService.getAccount(form.accountIdTo);
+  const checkAmount = accountFrom.amount >= form.amount;
+
+  if (accountFrom.currency === accountTo.currency && checkAmount) {
+    await transferService.debitingFromAccount(form.amount, form.accountIdFrom);
+    await transferService.revenuesToAccount(form.amount, form.accountIdTo);
+    await historyControllers.recordTransfer(form);
+  } else if (accountFrom.currency !== accountTo.currency) {
+    const exchange = await currencyControllers.getExchange(
+      accountFrom.currency,
+      accountTo.currency
+    );
+    const amountTo = Number(form.amount * exchange).toFixed(0);
+
+    await transferService.debitingFromAccount(form.amount, form.accountIdFrom);
+    await transferService.revenuesToAccount(amountTo, form.accountIdTo);
+    await historyControllers.recordTransfer(form, exchange);
+  }
+
+  const userAccounts = await accountService.getUserAccounts(form.userId);
+
+  return userAccounts;
 };
 
 const transferControllers = {
-  createTransferForm,
   transferToAccount,
   transferFromAccount,
-  transferBetweenAccounts
-}
+  transferBetweenAccounts,
+};
 
-module.exports = {transferControllers}
-
-// написать конвертацию дробных чисел
-// обратиться еще в два сервиса: запсать трансфер в историю и получить новый список счетов
+module.exports = { transferControllers };

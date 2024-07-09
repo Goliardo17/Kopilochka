@@ -1,57 +1,55 @@
 const sqlite3 = require("sqlite3").verbose();
 
-const db = new sqlite3.Database("base.db", (err) => {
-  if (err) {
-    console.log(err);
-  }
-});
-
-const createNewUser = (user) => {
-  db.run(
-    `INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, 
-    [user.name, user.email, user.password], (err) => {
-      if (err) {
-        console.log(err)
-        return
-      }
-
-      console.log("user writing")
+const connect = () => {
+  const db = new sqlite3.Database("base.db", (err) => {
+    if (err) {
+      console.error(err);
     }
-  );
-  db.close();
+
+    console.log("User service connect to base");
+  });
+
+  return db;
 };
 
-const getUserEmail = async (userInfo) => {
-  return await new Promise((resolve, reject) => {
-    db.get(
-      `
-        SELECT email FROM users 
-        WHERE email = '${userInfo.email}'
-      `,
-      (err, rows) => (rows ? resolve(true) : resolve(false))
-    );
-    db.close();
-  });
+const createNewUser = (user) => {
+  const db = connect();
+
+  const write = db.prepare(`
+      INSERT INTO users (name, email, password) VALUES (?, ?, ?)
+    `);
+
+  write.run(user.name, user.email, user.password);
+  write.finalize();
+
+  db.close((err) => (err ? console.error(err) : console.log("close create user")));
 };
 
 const getUser = async (userInfo) => {
+  const db = connect();
+
   return await new Promise((resolve, reject) => {
     db.get(
       `
         SELECT id, email, password FROM users 
-        WHERE email = '${userInfo.email}'
+        WHERE email = ?
       `,
-      (err, rows) => resolve(rows)
+      [userInfo.email],
+      (err, user) => {
+        if (err) {
+          console.error(err);
+        }
+
+        user ? resolve(user) : resolve();
+      }
     );
-    db.close();
+
+    db.close((err) => (err ? console.error(err) : console.log("close get user")));
   });
 };
 
-// db.close()
-
 const userService = {
   createNewUser,
-  getUserEmail,
   getUser,
 };
 

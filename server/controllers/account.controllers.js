@@ -1,9 +1,8 @@
 const { accountService } = require("../services/account.service");
 
-const getUserAccounts = (userId) => accountService.getUserAccounts(userId)
+const getUserAccounts = async (userId) => await accountService.getUserAccounts(userId)
 
-const createAccount = (accauntInfo) =>
-  accountService.createAccount(accauntInfo);
+const createAccount = async (accauntInfo) => await accountService.createAccount(accauntInfo);
 
 const accountControllers = {
 	getUserAccounts,

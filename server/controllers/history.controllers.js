@@ -1,9 +1,10 @@
 const { historyService } = require('../services/history.service')
 
-const getUserHistory = (userId) => historyService.getUserHistory(userId)
+const getUserHistory = async (userId) => await historyService.getUserHistory(userId)
 
-const recordTransfer = (transferForm) => {
-    historyService.recordTransfer(date, transferForm)
+const recordTransfer = async (form, exchange) => {
+    const date = new Date()
+    await historyService.recordTransfer(date, form, exchange)
 }
 
 const historyControllers = {
@@ -12,5 +13,3 @@ const historyControllers = {
 }
 
 module.exports = {historyControllers}
-
-// записывать дату в БД

@@ -2,7 +2,7 @@ import { SERVER } from "./constant"
 
 export const authorization = async (userInfo) => {
   try {
-    const response  = await fetch(`${SERVER + '/enter-to-user'}`, {
+    const response  = await fetch(`${SERVER + '/user'}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -12,8 +12,8 @@ export const authorization = async (userInfo) => {
   
     const json = await response.json()
   
-    if (json) {
-      sessionStorage.setItem("id", json)
+    if (json?.id) {
+      sessionStorage.setItem("id", json.id)
       return true
     }
 
@@ -27,7 +27,7 @@ export const authorization = async (userInfo) => {
 
 export const requestOfNewUser = async (userInfo) => {
   try {
-    const response = await fetch(`${SERVER + '/create-user'}`, {
+    const response = await fetch(`${SERVER + '/user/create'}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

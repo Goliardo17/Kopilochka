@@ -11,7 +11,7 @@ export const SelectAccount = ({style, item, label, array, vis, action}) => {
           {item.name ? (
             <>
               <p>
-                {item.name}/{item.amount} {item.currency}
+                {item.name}/{item.amount / 100} {item.currency}
               </p>
             </>
           ) : null}

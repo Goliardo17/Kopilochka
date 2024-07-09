@@ -11,37 +11,37 @@ export const ExpenditureTransferForm = ({ action }) => {
   const selectedAccount = useSelector((state) => state.accounts.selectItem)
   const dispatch = useDispatch()
   
-  const [transferForm, setTransferForm] = useState(() => {
-    form.type = "expenditure"
-    return form
-  })
-
-  const changeTransferForm = (newTransferForm) => {
-    setTransferForm(newTransferForm)
-  }
+  const [amount, setAmount] = useState(0.00)
 
   const changeSelectFrom = (account) => {
-    const newValue = {...transferForm}
-    newValue.accountFrom = account
-
-    changeTransferForm(newValue)
     dispatch(setSelectItem(account))
-    
   }
 
   const changeAmount = (value) => {
-    const newValue = {...transferForm}
+    if (!value.length) return setAmount('')
+    const number = Number(value)
 
-    newValue.amount = Number(value)
-    changeTransferForm(newValue)
+    if (number > 0) {
+      setAmount(number)
+      return
+    }
+
+    setAmount('')
+    alert("В поле суммы можно вводить только числа")
   }
 
   const submitForm = () => {
+    const requestForm = {...form}
+    if (typeof(amount) !== "number") return
     const id = JSON.parse(sessionStorage.getItem("id"))
-    transferForm.userId = Number(id)
-    transferForm.accountFrom = selectedAccount
+    requestForm.userId = Number(id)
+    requestForm.type = "expenditure"
+    requestForm.accountIdFrom = selectedAccount.id
+    requestForm.accountIdTo = 0
+    requestForm.amount = Number(amount * 100).toFixed(0)
+    console.log(requestForm)
 
-    dispatch(changeAccountAmount(transferForm))
+    dispatch(changeAccountAmount(requestForm))
     action()
   }
 

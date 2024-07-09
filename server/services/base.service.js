@@ -3,39 +3,42 @@ const fs = require("fs");
 
 const db = new sqlite3.Database("base.db", (err) => {
   if (err) {
-    console.log(err);
+    console.error(err);
   }
 
-  console.log("Connect to base");
+  console.log("Base service connect");
 });
 
-const createUsersTable = () => {
-  db.run(`
+const createUsersTable = async () => {
+  return await new Promise((resolve, reject) => {
+    db.run(`
       CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         email TEXT NOT NULL,
         password TEXT NOT NULL
       );
-    `);
-  db.close()
+    `, (err) => err ? console.error(err) : resolve());
+  })
 };
 
-const createAccountsTable = () => {
-  db.run(`
+const createAccountsTable = async () => {
+  return await new Promise((resolve, reject) => {
+    db.run(`
       CREATE TABLE IF NOT EXISTS accounts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         currency TEXT NOT NULL,
-        amount REAL NOT NULL,
+        amount INTEGER NOT NULL,
         user_id INTEGER NOT NULL
       );
-    `);
-  db.close()
+    `, (err) => err ? console.error(err) : resolve());
+  })
 };
 
-const createHistoryTable = () => {
-  db.run(`
+const createHistoryTable = async () => {
+  return await new Promise((resolve, reject) => {
+    db.run(`
       CREATE TABLE IF NOT EXISTS histories (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         type TEXT NOT NULL,
@@ -46,20 +49,8 @@ const createHistoryTable = () => {
         date TEXT,
         user_id INTEGER NOT NULL
       );
-    `);
-  db.close()
-};
-
-const createCategoryTable = () => {
-  db.run(`
-      CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        type TEXT NOT NULL,
-        name TEXT NOT NULL,
-        user_id INTEGER NOT NULL
-      );
-    `);
-  db.close()
+    `, (err) => err ? console.error(err) : resolve());
+  })
 };
 
 const getCurrencies =
@@ -74,13 +65,15 @@ const getCurrencies =
     return result;
   });
 
-const  baseService = {
-    createUsersTable,
-    createAccountsTable,
-    createCategoryTable,
-    createHistoryTable,
-    getCurrencies,
-  };
-  
+const create = async () => {
+  await createUsersTable();
+  await createAccountsTable();
+  await createHistoryTable();
+};
 
-module.exports = {baseService}
+const baseService = {
+  create,
+  getCurrencies,
+};
+
+module.exports = { baseService };

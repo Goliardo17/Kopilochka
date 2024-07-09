@@ -1,7 +1,7 @@
 import { SERVER } from "./constant";
 
 export const fetchAccounts = async (id) => {
-  const response = await fetch(`${SERVER + '/get-accounts'}`, {
+  const response = await fetch(`${SERVER + '/accounts'}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -14,7 +14,7 @@ export const fetchAccounts = async (id) => {
 };
 
 export const requestOfCreateAccount = async (form) => {
-  await fetch(`${SERVER + '/create-new-account'}`, {
+  await fetch(`${SERVER + '/account/create'}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export const changeAmount = (form) => {
 };
 
 export const transferAmount = async (form) => {
-  const response = await fetch(`${SERVER + '/transfer-between'}`, {
+  const response = await fetch(`${SERVER + '/transfer/between'}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export const transferAmount = async (form) => {
 };
 
 async function income(form) {
-  const response = await fetch(`${SERVER + '/transfer-income'}`, {
+  const response = await fetch(`${SERVER + '/transfer/income'}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -61,7 +61,7 @@ async function income(form) {
 }
 
 async function expenditure(form) {
-  const response = await fetch(`${SERVER + '/transfer-expense'}`, {
+  const response = await fetch(`${SERVER + '/transfer/expense'}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

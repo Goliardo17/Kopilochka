@@ -40,10 +40,8 @@ export const categories = [
 ]
 
 export const form = {
-  type: "revenues",
-  accountFrom: 0,
-  accountTo: 0,
-  category: "",
-  amount: 0.00,
-  exchange: 1.00
+  type: "",
+  accountIdFrom: 0,
+  accountIdTo: 0,
+  amount: 0.00
 }

@@ -17,7 +17,7 @@ export const Account = ({ style, account, action }) => {
 
         <div className="amount-wrapper">
           <p>
-            {Number(account.amount).toFixed(2)} {account.currency}
+            {Number(account.amount / 100).toFixed(2)} {account.currency}
           </p>
 
           {style == "account-medium" ? <img src={openEye} /> : null}

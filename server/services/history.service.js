@@ -1,12 +1,20 @@
 const sqlite3 = require("sqlite3").verbose();
 
-const db = new sqlite3.Database("base.db", (err) => {
-  if (err) {
-    console.log(err);
-  }
-});
+const connect = () => {
+  const db = new sqlite3.Database("base.db", (err) => {
+    if (err) {
+      console.log(err);
+    }
+  
+    console.log("History service connect");
+  });
+
+  return db
+}
 
 const getUserHistory = async (userId) => {
+  const db = connect()
+
   return await new Promise((resolve, reject) => {
     db.all(
       `
@@ -15,25 +23,28 @@ const getUserHistory = async (userId) => {
       `,
       (err, rows) => (rows ? resolve(rows) : resolve([]))
     );
-    db.close()
+    db.close((err) => (err ? console.error(err) : null));
   });
 };
 
-const recordTransfer = (date, transferForm) => {
-  const write = db.prepare(`
-      INSERT INTO histories (type, acc_from, acc_to, sum, exchange, date, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)
-    `);
-
-  write.run(
-    transferForm.type,
-    transferForm.accountIdFrom,
-    transferForm.accountIdTo,
-    transferForm.amount,
-    transferForm.exchange,
-    date,
-    transferForm.userId
-  );
-  write.finalize();
+const recordTransfer = async (date, transferForm, exchange = 1) => {
+  const db = connect()
+  
+  return await new Promise(() => {
+    db.run(
+      `INSERT INTO histories (type, acc_from, acc_to, sum, exchange, date, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        transferForm.type,
+        transferForm.accountIdFrom,
+        transferForm.accountIdTo,
+        transferForm.amount,
+        exchange,
+        date,
+        transferForm.userId,
+      ]
+    );
+    db.close((err) => (err ? console.error(err) : null));
+  });
 };
 
 const historyService = {
@@ -41,4 +52,4 @@ const historyService = {
   recordTransfer,
 };
 
-module.exports = {historyService}
+module.exports = { historyService };

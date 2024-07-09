@@ -1,11 +1,7 @@
 const { baseService } = require('../services/base.service')
 
-const createBase = () => {
-    baseService.createUsersTable()
-    baseService.createAccountsTable()
-    baseService.createHistoryTable()
-    baseService.createCategoryTable()
-    return
+const createBase = async () => {
+    await baseService.create()
 }
 
 const getCurrencies = () => {
@@ -17,4 +13,4 @@ const baseControllers = {
     getCurrencies
 }
 
-module.exports = {baseControllers}
+module.exports = baseControllers

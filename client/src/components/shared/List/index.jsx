@@ -96,7 +96,7 @@ export const List = ({ style, select, label, array, add, action, actionForAdd, a
     <div className={`${style} ${select ? "select" : ""}`}>
       {style !== "list-account-small" && label ? <p>{label}</p> : null}
 
-      {array.map((item, index) => list(item, index))}
+      {array.length ? array.map((item, index) => list(item, index)) : null}
 
       {add ? buttonForAdd() : null}
     </div>

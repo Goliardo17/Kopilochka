@@ -10,21 +10,17 @@ import { getCurrencies } from "../../../../slices/currencies/currenciesSlice";
 export const StandardTransferForm = ({ action }) => {
   const currencies = useSelector((state) => state.currencies.value);
   const accounts = useSelector((state) => state.accounts.items);
-  const accountFrom = useSelector((state) => state.accounts.selectItem);
+  const selectedAccount = useSelector((state) => state.accounts.selectItem);
   const [accountTo, setAccountTo] = useState({});
   const [amountFrom, setAmountFrom] = useState();
   const [amountTo, setAmountTo] = useState();
   const [exchangeCurrency, setEchangeCurrency] = useState({});
-  const [transferForm, setTransferForm] = useState(() => {
-    form.type = "between";
-    return form;
-  });
   const dispatch = useDispatch();
 
   const checkExchange = (changedAccountFrom, changedAccountTo) => {
     const currencyFrom = changedAccountFrom.currency
       ? changedAccountFrom.currency
-      : accountFrom.currency;
+      : selectedAccount.currency;
     const currencyTo = changedAccountTo.currency
       ? changedAccountTo.currency
       : accountTo.currency;
@@ -43,21 +39,12 @@ export const StandardTransferForm = ({ action }) => {
   };
 
   const changeTransferForm = (type, account) => {
-    const newValue = { ...transferForm };
-
     if (type === "from") {
-      newValue.accountFrom = account;
-
       dispatch(setSelectItem(account));
-      setTransferForm(newValue);
       return;
     }
 
-    newValue.accountFrom = accountFrom;
-    newValue.accountTo = account;
-
     setAccountTo(account);
-    setTransferForm(newValue);
   };
 
   const changeSelectFrom = (account) => {
@@ -71,28 +58,30 @@ export const StandardTransferForm = ({ action }) => {
   };
 
   const changeAmount = (type, value) => {
-    const newForm = { ...transferForm };
+    if (!value.length) return setAmountFrom('')
+      const number = Number(value)
+
+      if (!number > 0) {
+        setAmountFrom('')
+        return
+      }
 
     if (!exchangeCurrency.exchange) {
-      setAmountFrom(value)
-      setAmountTo(value)
+      setAmountFrom(Number(number))
+      setAmountTo(Number(number))
       return
     }
 
-    newForm.exchange =
-      exchangeCurrency.exchange.quotes[
-        `${accountFrom.currency + accountTo.currency}`
-      ];
-
     if (type === "to") {
-      const amoutExchange = Number(value / newForm.exchange);
-      setAmountTo(value);
+      const amoutExchange = Number(number / exchangeCurrency.exchange.quotes[`${selectedAccount.currency + accountTo.currency}`]);
+      setAmountTo(Number(number));
       setAmountFrom(Number(amoutExchange).toFixed(2));
       return;
     }
 
-    const amoutExchange = value * newForm.exchange;
-    setAmountFrom(value);
+    const amoutExchange = number * exchangeCurrency.exchange.quotes[`${selectedAccount.currency + accountTo.currency}`];
+
+    setAmountFrom(Number(number));
     setAmountTo(Number(amoutExchange).toFixed(2));
   };
 
@@ -101,17 +90,16 @@ export const StandardTransferForm = ({ action }) => {
   const changeAmountTo = (value) => changeAmount("to", value);
 
   const submitForm = () => {
+    const requestForm = {...form}
+    if (typeof(amountFrom) !== "number") return console.log(amountFrom + ' not number')
     const id = JSON.parse(sessionStorage.getItem("id"));
-    transferForm.userId = Number(id);
-    transferForm.accountFrom = accountFrom;
-    transferForm.exchange = exchangeCurrency.exchange ? Number(
-      exchangeCurrency.exchange.quotes[
-        `${transferForm.accountFrom.currency + transferForm.accountTo.currency}`
-      ]
-    ).toFixed(2) : exchangeCurrency.exchange = 1
-    transferForm.amount = Number(amountFrom).toFixed(2);
+    requestForm.userId = Number(id);
+    requestForm.type = "between"
+    requestForm.accountIdFrom = selectedAccount.id;
+    requestForm.accountIdTo = accountTo.id;
+    requestForm.amount = Number(amountFrom * 100).toFixed(0);
 
-    dispatch(transferAcountAmount(transferForm));
+    dispatch(transferAcountAmount(requestForm));
     action();
   };
 
@@ -127,7 +115,7 @@ export const StandardTransferForm = ({ action }) => {
 
       <Select
         style="select-accounts"
-        defaultAccount={accountFrom}
+        defaultAccount={selectedAccount}
         array={accounts}
         label="Счет для списания средств"
         action={changeSelectFrom}

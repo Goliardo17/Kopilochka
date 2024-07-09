@@ -82,10 +82,6 @@ export const Auth = () => {
       password: password,
     };
 
-    console.log("name", !errorValidationName)
-    console.log("email", !errorValidationEmail)
-    console.log("password", !errorValidationPassword)
-
     if (!errorValidationName && !errorValidationEmail && !errorValidationPassword) {
       const result = await requestOfNewUser(userInfo);
 
