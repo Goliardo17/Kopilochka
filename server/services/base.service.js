@@ -1,36 +1,44 @@
-const { db } = require("../common/db/createDbConnection.js")
+const { db } = require("../common/db/createDbConnection.js");
 const fs = require("fs");
 
 const createUsersTable = async () => {
   return await new Promise((resolve, reject) => {
-    db.run(`
+    db.run(
+      `
       CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         email TEXT NOT NULL,
         password TEXT NOT NULL
       );
-    `, (err) => err ? console.error(err) : resolve());
-  })
+    `,
+      (err) => (err ? console.error(err) : resolve())
+    );
+  });
 };
 
 const createAccountsTable = async () => {
   return await new Promise((resolve, reject) => {
-    db.run(`
+    db.run(
+      `
       CREATE TABLE IF NOT EXISTS accounts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         currency TEXT NOT NULL,
         amount INTEGER NOT NULL,
+        status TEXT NOT NULL,
         user_id INTEGER NOT NULL
       );
-    `, (err) => err ? console.error(err) : resolve());
-  })
+    `,
+      (err) => (err ? console.error(err) : resolve())
+    );
+  });
 };
 
 const createHistoryTable = async () => {
   return await new Promise((resolve, reject) => {
-    db.run(`
+    db.run(
+      `
       CREATE TABLE IF NOT EXISTS histories (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         type TEXT NOT NULL,
@@ -41,21 +49,11 @@ const createHistoryTable = async () => {
         date TEXT,
         user_id INTEGER NOT NULL
       );
-    `, (err) => err ? console.error(err) : resolve());
-  })
-};
-
-const getCurrencies =
-  ("../currencies/currencies.json",
-  async (err, data) => {
-    if (err) {
-      console.log(err);
-    }
-
-    const result = fs.readFileSync("currencies/currencies.json").toString();
-
-    return result;
+    `,
+      (err) => (err ? console.error(err) : resolve())
+    );
   });
+};
 
 const create = async () => {
   await createUsersTable();
@@ -65,7 +63,6 @@ const create = async () => {
 
 const baseService = {
   create,
-  getCurrencies,
 };
 
 module.exports = { baseService };

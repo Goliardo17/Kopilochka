@@ -11,7 +11,6 @@ const revenuesToAccount = async (amount, accauntId) => {
       [amount, accauntId],
       (err) => (err ? resolve(false) : resolve(true))
     );
-    // db.close((err) => (err ? console.error(err) : null));
   });
 };
 
@@ -26,7 +25,6 @@ const debitingFromAccount = async (amount, accauntId) => {
         [amount, accauntId],
       (err) => (err ? resolve(false) : resolve(true))
     );
-    // db.close((err) => (err ? console.error(err) : null));
   });
 };
 

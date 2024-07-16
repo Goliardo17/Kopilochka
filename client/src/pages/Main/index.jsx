@@ -7,7 +7,7 @@ import { Slice } from "./components/Slice";
 import { Label } from "../../components/shared/Label";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getUserAccounts } from "../../slices/accounts/accountsSlice";
+import { canCloseAccount, getUserAccounts } from "../../slices/accounts/accountsSlice";
 import { getCurrencies } from "../../slices/currencies/currenciesSlice";
 import { setSelectItem } from "../../slices/accounts/accountsSlice";
 import { CurrenciesList } from "./components/CurrenciesList";
@@ -39,6 +39,21 @@ export const Main = () => {
   const setAccount = (account) => {
     dispatch(setSelectItem(account));
   };
+
+  const deleteAccount = () => {
+    if (account.amount > 0) {
+      alert('Please transfer the balance to another account')
+      return
+    }
+
+    const id = Number(sessionStorage.getItem("id"))
+    const form = {
+      userId: id,
+      accountId: account.id
+    }
+
+    dispatch(canCloseAccount(form))
+  }
 
   useEffect(() => {
     const id = Number(sessionStorage.getItem("id"))
@@ -80,6 +95,12 @@ export const Main = () => {
                 image="./transfer.svg"
                 text="Между своими счетами"
                 action={toTransferBetween}
+              />
+              <Label
+                style="label-primary"
+                image="./close.svg"
+                text="Закрыть счет"
+                action={deleteAccount}
               />
             </div>
           </>

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { fetchAccounts, changeAmount, transferAmount, requestOfCreateAccount } from "../../api/accountsApi"
+import { fetchAccounts, changeAmount, transferAmount, closeAccount, requestOfCreateAccount } from "../../api/accountsApi"
 
 export const getUserAccounts = createAsyncThunk(
   'accounts/fetchAccounts',
@@ -34,6 +34,15 @@ export const transferAcountAmount = createAsyncThunk(
   'accounts/transferAmount',
   async (form) => {
     const responce = await transferAmount(form)
+
+    return responce
+  }
+)
+
+export const canCloseAccount = createAsyncThunk(
+  'accounts/close',
+  async (form) => {
+    const responce = await closeAccount(form)
 
     return responce
   }
@@ -74,6 +83,12 @@ export const accountsSlice = createSlice({
         state.selectItem = accounts.length ? accounts[0] : null
       })
       .addCase(transferAcountAmount.fulfilled, (state, action) => {
+        const accounts = action.payload
+        state.items = accounts
+
+        state.selectItem = accounts.length ? accounts[0] : null
+      })
+      .addCase(canCloseAccount.fulfilled, (state, action) => {
         const accounts = action.payload
         state.items = accounts
 

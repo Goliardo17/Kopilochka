@@ -72,3 +72,16 @@ async function expenditure(form) {
   const json = response.json();
   return json;
 }
+
+export const closeAccount = async (form) => {
+  const response = await fetch(`${SERVER + '/account/close'}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(form),
+  })
+
+  const json = response.json();
+  return json;
+};

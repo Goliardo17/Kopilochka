@@ -7,8 +7,6 @@ const createNewUser = (user) => {
 
   write.run(user.name, user.email, user.password);
   write.finalize();
-
-  // db.close((err) => (err ? console.error(err) : console.log("close create user")));
 };
 
 const getUser = async (userInfo) => {
@@ -27,8 +25,6 @@ const getUser = async (userInfo) => {
         user ? resolve(user) : resolve();
       }
     );
-
-    // db.close((err) => (err ? console.error(err) : console.log("close get user")));
   });
 };
 

@@ -9,8 +9,6 @@ const getUserHistory = async (userId) => {
       `,
       (err, rows) => (rows ? resolve(rows) : resolve([]))
     );
-
-    // db.close((err) => (err ? console.error(err) : null));
   });
 };
 
@@ -28,8 +26,6 @@ const recordTransfer = async (date, transferForm, exchange = 1) => {
         transferForm.userId,
       ]
     );
-
-    // db.close((err) => (err ? console.error(err) : null));
   });
 };
 

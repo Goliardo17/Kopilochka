@@ -7,7 +7,7 @@ router.post("/accounts", async (req, res) => {
 
   const userAccounts = await accountControllers.getUserAccounts(userId);
 
-  if (userAccounts.length) {
+  if (userAccounts) {
     res.status(201).send(JSON.stringify(userAccounts));
   } else {
     res.status(406).send()
@@ -22,7 +22,19 @@ router.post("/account/create", async (req, res) => {
   if (response) {
     res.status(201).send(JSON.stringify(true));
   } else {
-    res.status(400).send(JSON.stringify());
+    res.status(406).send();
+  }
+});
+
+router.post("/account/close", async (req, res) => {
+  const info = req.body;
+
+  const newAccounts = await accountControllers.closedAccount(info);
+
+  if (newAccounts.length) {
+    res.status(201).send(JSON.stringify(newAccounts));
+  } else {
+    res.status(406).send();
   }
 });
 

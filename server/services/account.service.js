@@ -1,4 +1,4 @@
-const { db } = require("../common/db/createDbConnection.js")
+const { db } = require("../common/db/createDbConnection.js");
 
 const getAccount = async (accountId) => {
   return await new Promise((resolve, reject) => {
@@ -9,9 +9,8 @@ const getAccount = async (accountId) => {
       `,
       (err, row) => (err ? resolve([]) : resolve(row))
     );
-    // db.close((err) => (err ? console.error(err) : null));
   });
-}
+};
 
 const getUserAccounts = async (userId) => {
   return await new Promise((resolve, reject) => {
@@ -22,7 +21,6 @@ const getUserAccounts = async (userId) => {
       `,
       (err, rows) => (err ? resolve([]) : resolve(rows))
     );
-    // db.close((err) => (err ? console.error(err) : null));
   });
 };
 
@@ -30,11 +28,31 @@ const createAccount = async (accauntInfo) => {
   return await new Promise(() => {
     db.run(
       `
-        INSERT INTO accounts (name, currency, amount, user_id) VALUES (?, ?, ?, ?)
+        INSERT INTO accounts (name, currency, amount, status, user_id) VALUES (?, ?, ?, ?, ?)
       `,
-      [accauntInfo.name, accauntInfo.currency, 0, accauntInfo.userId]
+      [accauntInfo.name, accauntInfo.currency, 0, "open", accauntInfo.userId]
     );
-    // db.close((err) => (err ? console.error(err) : console.log("closed")));
+  });
+};
+
+const closedAccount = async (id) => {
+  return await new Promise((resolve, reject) => {
+    db.run(
+      `
+          UPDATE accounts
+          SET status = ?
+          WHERE id = ?
+        `,
+      ["close", id],
+      (err) => {
+        if (err) {
+          console.log(err);
+          resolve(false);
+        }
+
+        resolve(true);
+      }
+    );
   });
 };
 
@@ -42,6 +60,7 @@ const accountService = {
   getUserAccounts,
   createAccount,
   getAccount,
+  closedAccount,
 };
 
 module.exports = { accountService };
