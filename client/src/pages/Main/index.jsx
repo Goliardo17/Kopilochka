@@ -89,7 +89,7 @@ export const Main = () => {
               />
             </div>
 
-            <div>
+            <div className="option-container">
               <Label
                 style="label-primary"
                 image="./transfer.svg"
