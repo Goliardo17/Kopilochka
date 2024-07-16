@@ -1,20 +1,6 @@
-const sqlite3 = require("sqlite3").verbose();
-
-const connect = () => {
-  const db = new sqlite3.Database("base.db", (err) => {
-    if (err) {
-      console.log(err);
-    }
-  
-    console.log("History service connect");
-  });
-
-  return db
-}
+const { db } = require("../common/db/createDbConnection.js")
 
 const getUserHistory = async (userId) => {
-  const db = connect()
-
   return await new Promise((resolve, reject) => {
     db.all(
       `
@@ -23,13 +9,12 @@ const getUserHistory = async (userId) => {
       `,
       (err, rows) => (rows ? resolve(rows) : resolve([]))
     );
-    db.close((err) => (err ? console.error(err) : null));
+
+    // db.close((err) => (err ? console.error(err) : null));
   });
 };
 
 const recordTransfer = async (date, transferForm, exchange = 1) => {
-  const db = connect()
-  
   return await new Promise(() => {
     db.run(
       `INSERT INTO histories (type, acc_from, acc_to, sum, exchange, date, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -43,7 +28,8 @@ const recordTransfer = async (date, transferForm, exchange = 1) => {
         transferForm.userId,
       ]
     );
-    db.close((err) => (err ? console.error(err) : null));
+
+    // db.close((err) => (err ? console.error(err) : null));
   });
 };
 

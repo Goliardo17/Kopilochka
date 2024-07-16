@@ -1,20 +1,6 @@
-const sqlite3 = require("sqlite3").verbose();
-
-const connect = () => {
-  const db = new sqlite3.Database("base.db", (err) => {
-    if (err) {
-      console.error(err);
-    }
-
-    console.log("User service connect to base");
-  });
-
-  return db;
-};
+const { db } = require("../common/db/createDbConnection.js")
 
 const createNewUser = (user) => {
-  const db = connect();
-
   const write = db.prepare(`
       INSERT INTO users (name, email, password) VALUES (?, ?, ?)
     `);
@@ -22,12 +8,10 @@ const createNewUser = (user) => {
   write.run(user.name, user.email, user.password);
   write.finalize();
 
-  db.close((err) => (err ? console.error(err) : console.log("close create user")));
+  // db.close((err) => (err ? console.error(err) : console.log("close create user")));
 };
 
 const getUser = async (userInfo) => {
-  const db = connect();
-
   return await new Promise((resolve, reject) => {
     db.get(
       `
@@ -44,7 +28,7 @@ const getUser = async (userInfo) => {
       }
     );
 
-    db.close((err) => (err ? console.error(err) : console.log("close get user")));
+    // db.close((err) => (err ? console.error(err) : console.log("close get user")));
   });
 };
 

@@ -1,13 +1,5 @@
-const sqlite3 = require("sqlite3").verbose();
+const { db } = require("../common/db/createDbConnection.js")
 const fs = require("fs");
-
-const db = new sqlite3.Database("base.db", (err) => {
-  if (err) {
-    console.error(err);
-  }
-
-  console.log("Base service connect");
-});
 
 const createUsersTable = async () => {
   return await new Promise((resolve, reject) => {

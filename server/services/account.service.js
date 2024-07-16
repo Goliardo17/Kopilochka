@@ -1,20 +1,6 @@
-const sqlite3 = require("sqlite3").verbose();
-
-const connect = () => {
-  const db = new sqlite3.Database("base.db", (err) => {
-    if (err) {
-      console.log(err);
-    }
-  
-    console.log("Account service connect");
-  });
-
-  return db
-}
+const { db } = require("../common/db/createDbConnection.js")
 
 const getAccount = async (accountId) => {
-  const db = connect()
-
   return await new Promise((resolve, reject) => {
     db.get(
       `
@@ -23,13 +9,11 @@ const getAccount = async (accountId) => {
       `,
       (err, row) => (err ? resolve([]) : resolve(row))
     );
-    db.close((err) => (err ? console.error(err) : null));
+    // db.close((err) => (err ? console.error(err) : null));
   });
 }
 
 const getUserAccounts = async (userId) => {
-  const db = connect()
-
   return await new Promise((resolve, reject) => {
     db.all(
       `
@@ -38,13 +22,11 @@ const getUserAccounts = async (userId) => {
       `,
       (err, rows) => (err ? resolve([]) : resolve(rows))
     );
-    db.close((err) => (err ? console.error(err) : null));
+    // db.close((err) => (err ? console.error(err) : null));
   });
 };
 
 const createAccount = async (accauntInfo) => {
-  const db = connect()
-  
   return await new Promise(() => {
     db.run(
       `
@@ -52,7 +34,7 @@ const createAccount = async (accauntInfo) => {
       `,
       [accauntInfo.name, accauntInfo.currency, 0, accauntInfo.userId]
     );
-    db.close((err) => (err ? console.error(err) : console.log("closed")));
+    // db.close((err) => (err ? console.error(err) : console.log("closed")));
   });
 };
 

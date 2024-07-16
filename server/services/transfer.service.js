@@ -1,19 +1,6 @@
-const sqlite3 = require("sqlite3").verbose();
-
-const connect = () => {
-    const db = new sqlite3.Database("base.db", (err) => {
-        if (err) {
-          console.log(err);
-        }
-        console.log("Transfer service connect");
-      });
-
-      return db
-}
+const { db } = require("../common/db/createDbConnection.js")
 
 const revenuesToAccount = async (amount, accauntId) => {
-    const db = connect()
-  
   return await new Promise((resolve, reject) => {
     db.run(
       `
@@ -24,13 +11,11 @@ const revenuesToAccount = async (amount, accauntId) => {
       [amount, accauntId],
       (err) => (err ? resolve(false) : resolve(true))
     );
-    db.close((err) => (err ? console.error(err) : null));
+    // db.close((err) => (err ? console.error(err) : null));
   });
 };
 
 const debitingFromAccount = async (amount, accauntId) => {
-    const db = connect()
-  
   return await new Promise((resolve, reject) => {
     db.run(
       `
@@ -41,7 +26,7 @@ const debitingFromAccount = async (amount, accauntId) => {
         [amount, accauntId],
       (err) => (err ? resolve(false) : resolve(true))
     );
-    db.close((err) => (err ? console.error(err) : null));
+    // db.close((err) => (err ? console.error(err) : null));
   });
 };
 
