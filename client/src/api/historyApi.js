@@ -6,7 +6,7 @@ export const fetchHistory = async (id) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({id: id}),
+      body: JSON.stringify({userId: id}),
     })
 
   const json = response.json()

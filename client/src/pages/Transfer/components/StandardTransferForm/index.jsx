@@ -34,8 +34,8 @@ export const StandardTransferForm = ({ action }) => {
       (currency) => currency.exchange.source == currencyFrom
     )[0];
     setEchangeCurrency(currency);
-    setAmountTo('')
-    setAmountFrom('')
+    setAmountTo(0)
+    setAmountFrom(0)
   };
 
   const changeTransferForm = (type, account) => {
@@ -58,11 +58,11 @@ export const StandardTransferForm = ({ action }) => {
   };
 
   const changeAmount = (type, value) => {
-    if (!value.length) return setAmountFrom('')
+    if (!value.length) return setAmountFrom(0)
       const number = Number(value)
 
       if (!number > 0) {
-        setAmountFrom('')
+        setAmountFrom(0)
         return
       }
 
@@ -91,9 +91,9 @@ export const StandardTransferForm = ({ action }) => {
 
   const submitForm = () => {
     const requestForm = {...form}
-    if (typeof(amountFrom) !== "number") return console.log(amountFrom + ' not number')
-    const id = JSON.parse(sessionStorage.getItem("id"));
-    requestForm.userId = Number(id);
+    if (typeof(amountFrom*100) !== "number") return console.log(amountFrom + ' not number')
+    const id = sessionStorage.getItem("id")
+    requestForm.userId = id
     requestForm.type = "between"
     requestForm.accountIdFrom = selectedAccount.id;
     requestForm.accountIdTo = accountTo.id;

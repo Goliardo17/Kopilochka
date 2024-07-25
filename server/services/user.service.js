@@ -1,11 +1,11 @@
 const { db } = require("../common/db/createDbConnection.js")
 
-const createNewUser = (user) => {
+const createNewUser = (name, email, password) => {
   const write = db.prepare(`
       INSERT INTO users (name, email, password) VALUES (?, ?, ?)
     `);
 
-  write.run(user.name, user.email, user.password);
+  write.run(name, email, password);
   write.finalize();
 };
 

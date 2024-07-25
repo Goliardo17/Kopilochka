@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { historyControllers } = require('../controllers/history.controllers.js')
+const { historyControllers } = require("../controllers/history.controllers.js");
 
 router.post("/history", async (req, res) => {
-  const userId = req.body.id;
+  const { userId } = req.body;
 
   const userHistory = await historyControllers.getUserHistory(userId);
 
@@ -14,4 +14,4 @@ router.post("/history", async (req, res) => {
   }
 });
 
-module.exports = router
+module.exports = router;

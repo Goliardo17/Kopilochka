@@ -3,7 +3,7 @@ const router = express.Router()
 const { accountControllers } = require('../controllers/account.controllers.js')
 
 router.post("/accounts", async (req, res) => {
-  const userId = req.body.id;
+  const {userId} = req.body;
 
   const userAccounts = await accountControllers.getUserAccounts(userId);
 
@@ -32,9 +32,9 @@ router.post("/account/close", async (req, res) => {
   const newAccounts = await accountControllers.closedAccount(info);
 
   if (newAccounts.length) {
-    res.status(201).send(JSON.stringify(newAccounts));
+    res.status(201).json(newAccounts);
   } else {
-    res.status(406).send();
+    res.status(406).json('Ошибка');
   }
 });
 

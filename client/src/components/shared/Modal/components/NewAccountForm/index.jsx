@@ -26,7 +26,7 @@ export const NewAccountForm = () => {
   }
 
   const sendNewAccount = () => {
-    const id = Number(sessionStorage.getItem("id"))
+    const id = sessionStorage.getItem("id")
 
     const newAccount = {
       userId: id,

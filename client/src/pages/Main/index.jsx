@@ -46,7 +46,7 @@ export const Main = () => {
       return
     }
 
-    const id = Number(sessionStorage.getItem("id"))
+    const id = sessionStorage.getItem("id")
     const form = {
       userId: id,
       accountId: account.id
@@ -56,7 +56,7 @@ export const Main = () => {
   }
 
   useEffect(() => {
-    const id = Number(sessionStorage.getItem("id"))
+    const id = sessionStorage.getItem("id")
     dispatch(getUserAccounts(id));
     dispatch(getCurrencies());
   }, []);

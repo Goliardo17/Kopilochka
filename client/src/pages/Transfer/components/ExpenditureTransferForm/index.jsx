@@ -33,8 +33,8 @@ export const ExpenditureTransferForm = ({ action }) => {
   const submitForm = () => {
     const requestForm = {...form}
     if (typeof(amount) !== "number") return
-    const id = JSON.parse(sessionStorage.getItem("id"))
-    requestForm.userId = Number(id)
+    const id = sessionStorage.getItem("id")
+    requestForm.userId = id
     requestForm.type = "expenditure"
     requestForm.accountIdFrom = selectedAccount.id
     requestForm.accountIdTo = 0
