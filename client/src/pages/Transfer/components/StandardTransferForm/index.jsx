@@ -92,8 +92,6 @@ export const StandardTransferForm = ({ action }) => {
   const submitForm = () => {
     const requestForm = {...form}
     if (typeof(amountFrom*100) !== "number") return console.log(amountFrom + ' not number')
-    const id = sessionStorage.getItem("id")
-    requestForm.userId = id
     requestForm.type = "between"
     requestForm.accountIdFrom = selectedAccount.id;
     requestForm.accountIdTo = accountTo.id;

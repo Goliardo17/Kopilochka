@@ -1,12 +1,12 @@
 import { SERVER } from "./constant";
 
-export const fetchAccounts = async (id) => {
+export const fetchAccounts = async () => {
   const response = await fetch(`${SERVER + '/accounts'}`, {
-    method: "POST",
+    method: "GET",
     headers: {
+      "authorization": sessionStorage.getItem('id'),
       "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ userId: id }),
+    }
   })
   
   const json = response.json();
@@ -14,9 +14,10 @@ export const fetchAccounts = async (id) => {
 };
 
 export const requestOfCreateAccount = async (form) => {
-  await fetch(`${SERVER + '/account/create'}`, {
+  await fetch(`${SERVER + '/accounts/create'}`, {
     method: "POST",
     headers: {
+      "authorization": sessionStorage.getItem('id'),
       "Content-Type": "application/json",
     },
     body: JSON.stringify(form)
@@ -36,8 +37,9 @@ export const changeAmount = (form) => {
 
 export const transferAmount = async (form) => {
   const response = await fetch(`${SERVER + '/transfer/between'}`, {
-    method: "POST",
+    method: "PUT",
     headers: {
+      "authorization": sessionStorage.getItem('id'),
       "Content-Type": "application/json",
     },
     body: JSON.stringify(form),
@@ -49,8 +51,9 @@ export const transferAmount = async (form) => {
 
 async function income(form) {
   const response = await fetch(`${SERVER + '/transfer/income'}`, {
-    method: "POST",
+    method: "PUT",
     headers: {
+      "authorization": sessionStorage.getItem('id'),
       "Content-Type": "application/json",
     },
     body: JSON.stringify(form),
@@ -62,8 +65,9 @@ async function income(form) {
 
 async function expenditure(form) {
   const response = await fetch(`${SERVER + '/transfer/expense'}`, {
-    method: "POST",
+    method: "PUT",
     headers: {
+      "authorization": sessionStorage.getItem('id'),
       "Content-Type": "application/json",
     },
     body: JSON.stringify(form),
@@ -74,9 +78,10 @@ async function expenditure(form) {
 }
 
 export const closeAccount = async (form) => {
-  const response = await fetch(`${SERVER + '/account/close'}`, {
-    method: "POST",
+  const response = await fetch(`${SERVER + '/accounts/close'}`, {
+    method: "PUT",
     headers: {
+      "authorization": sessionStorage.getItem('id'),
       "Content-Type": "application/json",
     },
     body: JSON.stringify(form),

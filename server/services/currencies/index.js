@@ -12,8 +12,8 @@ const getCurrencies =
     return result;
   });
 
-const currencyService = {
-  getCurrencies
+const currenciesServices = {
+  getCurrencies,
 };
 
-module.exports = {currencyService}
+module.exports = currenciesServices

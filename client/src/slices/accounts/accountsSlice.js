@@ -3,8 +3,8 @@ import { fetchAccounts, changeAmount, transferAmount, closeAccount, requestOfCre
 
 export const getUserAccounts = createAsyncThunk(
   'accounts/fetchAccounts',
-  async (id) => {
-    const responce = await fetchAccounts(id)
+  async () => {
+    const responce = await fetchAccounts()
 
     return responce
   }

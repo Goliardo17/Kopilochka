@@ -1,19 +1,19 @@
 import { SERVER } from "./constant"
 
-export const authorization = async (userInfo) => {
+export const authorization = async (form) => {
   try {
     const response  = await fetch(`${SERVER + '/user'}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(userInfo)
+      body: JSON.stringify(form)
     })
   
     const json = await response.json()
   
-    if (json?.id) {
-      sessionStorage.setItem("id", json.id)
+    if (json?.length) {
+      sessionStorage.setItem("id", json)
       return true
     }
 

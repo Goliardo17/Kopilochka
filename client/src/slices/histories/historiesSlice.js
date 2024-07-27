@@ -3,8 +3,8 @@ import { fetchHistory } from "../../api/historyApi";
 
 export const getUserHistory = createAsyncThunk(
   "histories/fetchHistory",
-  async (id) => {
-    const resp = await fetchHistory(id);
+  async () => {
+    const resp = await fetchHistory();
 
     return resp;
   }

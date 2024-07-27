@@ -1,6 +1,6 @@
-const { db } = require("../common/db/createDbConnection.js")
+const { db } = require("../../common/db/createDbConnection")
 
-const createNewUser = (name, email, password) => {
+const create = (name, email, password) => {
   const write = db.prepare(`
       INSERT INTO users (name, email, password) VALUES (?, ?, ?)
     `);
@@ -9,28 +9,30 @@ const createNewUser = (name, email, password) => {
   write.finalize();
 };
 
-const getUser = async (userInfo) => {
+const get = async (email) => {
+  if (!email) throw new Error ("Не указан email в services/users/get")
+
   return await new Promise((resolve, reject) => {
     db.get(
       `
         SELECT id, email, password FROM users 
         WHERE email = ?
       `,
-      [userInfo.email],
+      [email],
       (err, user) => {
         if (err) {
-          console.error(err);
+          throw new Error (err);
         }
 
-        user ? resolve(user) : resolve();
+        user ? resolve(user) : resolve(undefined);
       }
     );
   });
 };
 
-const userService = {
-  createNewUser,
-  getUser,
+const usersServices = {
+  create,
+  get,
 };
 
-module.exports = { userService };
+module.exports = usersServices

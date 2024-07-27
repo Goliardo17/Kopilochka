@@ -9,8 +9,7 @@ export const History = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const id = sessionStorage.getItem("id")
-    dispatch(getUserHistory(id))
+    dispatch(getUserHistory())
   }, [])
 
   return (

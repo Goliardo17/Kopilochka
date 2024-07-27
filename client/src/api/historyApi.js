@@ -1,12 +1,12 @@
 import { SERVER } from "./constant";
 
-export const fetchHistory = async (id) => {
+export const fetchHistory = async () => {
   const response = await fetch(`${SERVER + '/history'}`, {
-      method: "POST",
+      method: "GET",
       headers: {
+        "Authorization": sessionStorage.getItem('id'),
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify({userId: id}),
+      }
     })
 
   const json = response.json()

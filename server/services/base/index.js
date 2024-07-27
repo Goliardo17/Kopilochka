@@ -1,4 +1,4 @@
-const { db } = require("../common/db/createDbConnection.js");
+const { db } = require("../../common/db/createDbConnection");
 const fs = require("fs");
 
 const createUsersTable = async () => {
@@ -61,8 +61,8 @@ const create = async () => {
   await createHistoryTable();
 };
 
-const baseService = {
-  create,
+const baseServices = {
+  create
 };
 
-module.exports = { baseService };
+module.exports = baseServices

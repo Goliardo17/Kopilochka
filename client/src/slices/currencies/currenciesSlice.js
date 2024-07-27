@@ -3,8 +3,8 @@ import { fetchCurrencies } from "../../api/currenciesApi.js"
 
 export const getCurrencies = createAsyncThunk(
   'currencies/fetchCurrencies',
-  async (id) => {
-    const responce = await fetchCurrencies(id)
+  async () => {
+    const responce = await fetchCurrencies()
 
     return responce
   }
@@ -15,7 +15,6 @@ export const currenciesSlice = createSlice({
   initialState: {
     value: []
   },
-  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getCurrencies.fulfilled, (state, action) => {
@@ -23,7 +22,5 @@ export const currenciesSlice = createSlice({
       })
   }
 })
-
-export const {  } = currenciesSlice.actions
 
 export default currenciesSlice.reducer

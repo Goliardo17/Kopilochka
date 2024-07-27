@@ -10,6 +10,8 @@ export const RevenuesTransferForm = ({ action }) => {
   const accounts = useSelector((state) => state.accounts.items)
   const selectedAccount = useSelector((state) => state.accounts.selectItem)
   const dispatch = useDispatch()
+
+  console.log(selectedAccount)
   
   const [amount, setAmount] = useState('')
 
@@ -31,8 +33,6 @@ export const RevenuesTransferForm = ({ action }) => {
   const submitForm = () => {
     const requestForm = {...form}
     if (typeof(amount) !== "number") return console.log(amount + ' not number')
-    const id = sessionStorage.getItem("id")
-    requestForm.userId = id
     requestForm.type = "revenues"
     requestForm.accountIdFrom = 0
     requestForm.accountIdTo = selectedAccount.id
